@@ -1,0 +1,105 @@
+.sheet {
+  display: grid;
+  gap: 0.9rem;
+}
+.sheet__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: end;
+  gap: 0.75rem 1.5rem;
+  flex-wrap: wrap;
+}
+.sheet__count {
+  margin-top: 0.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+.sheet__remaining {
+  font-family: var(--font-display);
+  font-size: var(--step-3);
+  font-weight: 700;
+  line-height: 1;
+}
+.sheet__total {
+  color: var(--paper-2);
+  font-size: var(--step--1);
+}
+.sheet__reasons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  justify-content: flex-end;
+}
+.sheet__reason {
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  font-size: var(--step--2);
+  color: var(--paper-2);
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.sheet__reason .mono {
+  color: var(--paper);
+  font-weight: 600;
+}
+.sheet__reason:hover,
+.sheet__reason.is-on {
+  border-color: var(--warn);
+  color: var(--paper);
+}
+.sheet__reason.is-on {
+  background: rgb(240 195 90 / 0.1);
+}
+
+/* Film stock: sprocket holes along both edges. */
+.sheet__strip {
+  --hole: rgb(11 15 18 / 0.95);
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(18px, 1fr));
+  gap: 5px;
+  padding: 22px 12px;
+  border-radius: 10px;
+  background:
+    radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 4px / 16px 14px repeat-x,
+    radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 calc(100% - 4px) / 16px 14px repeat-x,
+    #1a1612;
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.04);
+}
+.frame {
+  aspect-ratio: 3 / 4;
+  border-radius: 3px;
+  background: linear-gradient(160deg, var(--a), var(--b) 70%);
+  box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.08);
+  cursor: pointer;
+  transition:
+    opacity 0.45s calc(var(--i) * 12ms),
+    filter 0.45s calc(var(--i) * 12ms),
+    transform 0.45s var(--ease-out) calc(var(--i) * 12ms),
+    box-shadow 0.2s;
+}
+.frame:hover {
+  transform: scale(1.25);
+  z-index: 1;
+  box-shadow: 0 0 0 2px var(--paper);
+}
+.frame.is-hit {
+  box-shadow: 0 0 0 2px var(--tungsten);
+}
+.frame.is-out {
+  opacity: 0.16;
+  filter: grayscale(1);
+  transform: scale(0.82);
+}
+.frame.is-out.is-focus {
+  opacity: 0.85;
+  filter: none;
+  transform: scale(0.9);
+  box-shadow: 0 0 0 2px var(--warn);
+}

@@ -1,0 +1,287 @@
+.pick {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  padding: max(16px, env(safe-area-inset-top, 0px)) var(--gutter-r) max(16px, env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+}
+.pick__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(5 7 9 / 0.88);
+  backdrop-filter: blur(6px);
+  animation: fade-in 0.3s ease-out;
+}
+.pick__stage {
+  position: relative;
+  width: min(980px, 100%);
+  max-height: 100%;
+  overflow: auto;
+  display: grid;
+  justify-items: center;
+}
+.pick__close {
+  position: sticky;
+  top: 0;
+  justify-self: end;
+  z-index: 3;
+  background: var(--ink-2);
+  border-color: var(--line);
+}
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+/* ── Reel ── */
+.reel {
+  width: 100%;
+  display: grid;
+  gap: 1rem;
+  justify-items: center;
+}
+.reel__label {
+  color: var(--paper-2);
+}
+.reel__viewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 26px 0;
+  background:
+    radial-gradient(circle, rgb(0 0 0 / 0.9) 0 4px, transparent 4.5px) 0 7px / 22px 16px repeat-x,
+    radial-gradient(circle, rgb(0 0 0 / 0.9) 0 4px, transparent 4.5px) 0 calc(100% - 7px) / 22px 16px repeat-x,
+    #1a1612;
+  border-radius: 12px;
+  mask-image: linear-gradient(90deg, transparent, #000 14%, #000 86%, transparent);
+}
+.reel__strip {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+.reel__frame {
+  flex: none;
+}
+.reel__gate {
+  position: absolute;
+  z-index: 2;
+  top: 10px;
+  bottom: 10px;
+  left: 50%;
+  width: 164px;
+  margin-left: -82px;
+  border-radius: 12px;
+  border: 2px solid var(--tungsten);
+  box-shadow: 0 0 0 9999px rgb(0 0 0 / 0.25), 0 0 40px rgb(255 159 67 / 0.35);
+  pointer-events: none;
+}
+
+.pick__message {
+  display: grid;
+  gap: 0.75rem;
+  justify-items: center;
+  text-align: center;
+  padding: 2rem;
+  max-width: 34rem;
+}
+.pick__message p {
+  color: var(--paper-2);
+}
+
+/* ── Ticket ── */
+.ticket {
+  --notch: 14px;
+  position: relative;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 128px;
+  grid-template-areas: 'main stub' 'actions actions';
+  background: var(--paper);
+  color: #17120d;
+  border-radius: 18px;
+  overflow: hidden;
+  box-shadow: 0 40px 120px -30px rgb(255 159 67 / 0.45);
+  animation: ticket-in 0.7s var(--ease-out);
+}
+@keyframes ticket-in {
+  from {
+    opacity: 0;
+    transform: translateY(40px) rotate(-1.5deg) scale(0.96);
+  }
+}
+.ticket__main {
+  grid-area: main;
+  display: grid;
+  gap: 1rem;
+  padding: clamp(1rem, 3vw, 1.75rem);
+  min-width: 0;
+}
+.ticket__brand {
+  font-size: var(--step--2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #6c5b48;
+}
+.ticket__film {
+  display: grid;
+  grid-template-columns: 170px minmax(0, 1fr);
+  gap: 1.25rem;
+}
+.ticket__poster {
+  box-shadow: 0 14px 30px -12px rgb(0 0 0 / 0.6);
+}
+.ticket__info {
+  display: grid;
+  gap: 0.6rem;
+  align-content: start;
+  min-width: 0;
+}
+.ticket__title {
+  font-size: var(--step-3);
+  color: #120d08;
+}
+.ticket__meta {
+  font-size: var(--step--1);
+  color: #6c5b48;
+}
+.ticket__blurb {
+  color: #3a2f24;
+  max-width: 60ch;
+}
+.ticket__reasons {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.ticket .chip {
+  background: rgb(23 18 13 / 0.06);
+  border-color: rgb(23 18 13 / 0.18);
+  color: #17120d;
+  font-size: var(--step--2);
+}
+.ticket .chip--warn {
+  border-color: rgb(166 110 0 / 0.5);
+  background: rgb(240 195 90 / 0.25);
+}
+/* Fingerprint printed on paper. */
+.ticket .print {
+  --chart-track: rgb(23 18 13 / 0.15);
+  color: #17120d;
+}
+.ticket .print__table th,
+.ticket .print__legend,
+.ticket .print__wish,
+.ticket .eyebrow {
+  color: #5a4a3a;
+}
+.ticket .print__value {
+  color: #17120d;
+}
+.ticket .print__bar {
+  box-shadow: 0 0 0 2px var(--paper);
+}
+
+.ticket__stub {
+  grid-area: stub;
+  position: relative;
+  display: grid;
+  align-content: center;
+  gap: 0.9rem;
+  padding: 1rem 0.75rem;
+  border-left: 2px dashed rgb(23 18 13 / 0.3);
+  background: #e6dac6;
+  text-align: center;
+  font-size: var(--step--2);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: #5a4a3a;
+}
+.ticket__stub::before,
+.ticket__stub::after {
+  content: '';
+  position: absolute;
+  left: calc(-1 * var(--notch) - 1px);
+  width: calc(var(--notch) * 2);
+  height: calc(var(--notch) * 2);
+  border-radius: 50%;
+  background: var(--ink-0);
+}
+.ticket__stub::before {
+  top: calc(-1 * var(--notch));
+}
+.ticket__stub::after {
+  bottom: calc(-1 * var(--notch));
+}
+.ticket__stub b {
+  display: block;
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  letter-spacing: 0;
+  color: #17120d;
+}
+.ticket__match {
+  font-family: var(--font-display);
+  font-size: var(--step-2);
+  letter-spacing: 0;
+  color: #b4560f;
+}
+.ticket__match small {
+  font-size: 0.5em;
+}
+.ticket__actions {
+  grid-area: actions;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  align-items: center;
+  padding: 1rem clamp(1rem, 3vw, 1.75rem);
+  background: #17120d;
+}
+.ticket__actions .btn:not(.btn--primary) {
+  background: transparent;
+  color: var(--paper);
+  border-color: rgb(239 230 216 / 0.25);
+}
+.ticket__done {
+  flex: 1 1 100%;
+  color: var(--paper);
+  font-weight: 600;
+}
+
+@media (max-width: 680px) {
+  .ticket {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-areas: 'main' 'stub' 'actions';
+  }
+  .ticket__stub {
+    border-left: 0;
+    border-top: 2px dashed rgb(23 18 13 / 0.3);
+    grid-auto-flow: column;
+    align-items: center;
+  }
+  .ticket__stub::before,
+  .ticket__stub::after {
+    top: calc(-1 * var(--notch) - 1px);
+    left: auto;
+    bottom: auto;
+  }
+  .ticket__stub::before {
+    left: calc(-1 * var(--notch));
+  }
+  .ticket__stub::after {
+    right: calc(-1 * var(--notch));
+  }
+  .ticket__film {
+    grid-template-columns: 110px minmax(0, 1fr);
+    gap: 0.9rem;
+  }
+  .ticket__title {
+    font-size: var(--step-2);
+  }
+}

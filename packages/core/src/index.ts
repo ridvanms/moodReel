@@ -1,0 +1,14 @@
+export * from './types';
+export * from './labels';
+export * from './effects';
+export { clamp, createRng, randomSeed, entropy, type Rng } from './math';
+export { toSummary } from './summary';
+export { exclusionReason } from './engine/filter';
+export { recommend, poolReport, describePool, dimFit, hasPreferences, type CommunitySignal, type RecommendOptions } from './engine/recommend';
+export { movieSimilarity, similarMovies, profileSimilarity, themeSimilarity, type RefMatch } from './engine/similarity';
+export { pickOne, buildReel, REEL_LENGTH, REEL_WINNER_INDEX, type PickOptions } from './engine/pick';
+export { runOracle, QUESTIONS, type OracleAnswer, type OracleStep, type OracleState, type OracleCandidate, type OracleOptions } from './oracle/oracle';
+export { createParser, type Parser, type ParseResult } from './nlp/parse';
+export { TitleIndex } from './nlp/titles';
+export { normalize, normalizeTitle, transliterate } from './nlp/text';
+export type { MovieDetails, PickResult, CommunityStats, FeedbackInput, ApiErrorBody } from './api';

@@ -1,0 +1,147 @@
+.moodmap {
+  display: grid;
+  gap: 0.5rem;
+}
+.moodmap__area {
+  position: relative;
+  aspect-ratio: 1 / 0.86;
+  border-radius: var(--radius-sm);
+  overflow: hidden;
+  touch-action: none;
+  cursor: crosshair;
+  user-select: none;
+  background:
+    linear-gradient(180deg, rgb(239 230 216 / 0.06), rgb(0 0 0 / 0.5)),
+    linear-gradient(90deg, rgb(46 196 182 / 0.22), rgb(23 32 40 / 0.4) 50%, rgb(255 159 67 / 0.24));
+  border: 1px solid var(--line);
+}
+.moodmap__area::before,
+.moodmap__area::after {
+  content: '';
+  position: absolute;
+  background: var(--line);
+  pointer-events: none;
+}
+.moodmap__area::before {
+  left: 50%;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+}
+.moodmap__area::after {
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 1px;
+}
+.moodmap__quad {
+  position: absolute;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--paper-2);
+  opacity: 0.75;
+  pointer-events: none;
+}
+.moodmap__quad--tl {
+  top: 10px;
+  left: 12px;
+}
+.moodmap__quad--tr {
+  top: 10px;
+  right: 12px;
+}
+.moodmap__quad--bl {
+  bottom: 10px;
+  left: 12px;
+}
+.moodmap__quad--br {
+  bottom: 10px;
+  right: 12px;
+}
+.moodmap__dots {
+  position: absolute;
+  inset: 0;
+}
+.moodmap__dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  margin: -4px 0 0 -4px;
+  border-radius: 50%;
+  background: var(--paper);
+  opacity: 0.38;
+  box-shadow: 0 0 0 2px var(--ink-1);
+  transition: opacity 0.3s, transform 0.3s var(--ease-out), background 0.3s;
+  cursor: pointer;
+}
+/* A larger invisible hit target than the 8px mark. */
+.moodmap__dot::after {
+  content: '';
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+}
+.moodmap__dot:hover {
+  opacity: 1;
+  transform: scale(1.5);
+}
+.moodmap__dot.is-hit {
+  background: var(--tungsten);
+  opacity: 1;
+  transform: scale(1.25);
+}
+.moodmap__dot.is-out {
+  opacity: 0.1;
+}
+.moodmap__tip {
+  position: absolute;
+  transform: translate(12px, -50%);
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  background: var(--paper);
+  color: var(--ink-0);
+  font-size: var(--step--1);
+  font-weight: 600;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 3;
+}
+.moodmap__tip--left {
+  transform: translate(calc(-100% - 12px), -50%);
+}
+.moodmap__puck {
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  margin: -15px 0 0 -15px;
+  border-radius: 50%;
+  border: 3px solid var(--paper);
+  background: radial-gradient(circle, var(--tungsten) 0 38%, transparent 40%);
+  box-shadow: 0 0 0 6px rgb(255 159 67 / 0.2), 0 6px 18px rgb(0 0 0 / 0.6);
+  z-index: 2;
+  padding: 0;
+  transition: box-shadow 0.2s;
+}
+.moodmap__puck.is-idle {
+  opacity: 0.45;
+  border-style: dashed;
+  background: transparent;
+  box-shadow: none;
+}
+.moodmap__axes {
+  display: flex;
+  justify-content: space-between;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  color: var(--muted);
+  letter-spacing: 0.06em;
+}
+.moodmap__hint {
+  font-size: var(--step--1);
+  color: var(--paper-2);
+}
+.moodmap__hint b {
+  color: var(--paper);
+}

@@ -1,0 +1,144 @@
+/* Paints the phone's status-bar band so content never scrolls visibly under it. */
+.safe-top {
+  position: fixed;
+  inset: 0 0 auto;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 25;
+  background: var(--ink-0);
+}
+
+.shell {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 1.5rem var(--gutter-r) 6rem var(--gutter-l);
+  display: grid;
+  gap: 2rem;
+}
+
+.hero {
+  display: grid;
+  gap: 1.25rem;
+}
+.hero__copy {
+  display: grid;
+  gap: 0.85rem;
+  max-width: 62rem;
+  padding-top: clamp(0.5rem, 3vw, 2rem);
+}
+.hero h1 {
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.hero h1 em {
+  font-style: normal;
+  color: var(--tungsten);
+}
+.hero__lead {
+  color: var(--paper-2);
+  font-size: var(--step-1);
+  max-width: 60ch;
+  line-height: 1.5;
+}
+
+.desk {
+  display: grid;
+  grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+.desk__left {
+  position: sticky;
+  top: 4.5rem;
+  min-width: 0;
+}
+.desk__right {
+  display: grid;
+  gap: 1.75rem;
+  min-width: 0;
+}
+
+.footer {
+  border-top: 1px solid var(--line);
+}
+.footer__inner {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding: 1.5rem var(--gutter-r) calc(5.5rem + env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: var(--step--1);
+}
+.footer__inner p:first-child {
+  max-width: 60ch;
+}
+
+/* Mobile: the one action that matters stays under the thumb. */
+.pickbar {
+  display: none;
+}
+
+.boot {
+  min-height: 100dvh;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 1rem;
+  text-align: center;
+  padding: 2rem var(--gutter-r) 2rem var(--gutter-l);
+}
+.boot h1 {
+  font-size: var(--step-3);
+}
+.boot p {
+  color: var(--paper-2);
+}
+.boot__reel {
+  color: var(--tungsten);
+  animation: spin 1.4s linear infinite;
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (max-width: 1080px) {
+  .desk {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .desk__left {
+    position: static;
+    order: 2;
+  }
+  .desk__right {
+    order: 1;
+  }
+}
+
+@media (max-width: 720px) {
+  .shell {
+    gap: 1.5rem;
+    padding-top: 1rem;
+  }
+  .pickbar {
+    display: block;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 15;
+    padding: 0.75rem var(--gutter-r) max(0.75rem, env(safe-area-inset-bottom, 0px)) var(--gutter-l);
+    background: linear-gradient(180deg, transparent, rgb(11 15 18 / 0.95) 35%);
+  }
+  .pickbar__btn {
+    width: 100%;
+    min-height: 52px;
+    font-size: var(--step-0);
+    box-shadow: 0 10px 30px -10px rgb(255 159 67 / 0.6);
+  }
+}

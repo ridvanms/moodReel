@@ -1,0 +1,27 @@
+{
+  "name": "moodreel",
+  "private": true,
+  "version": "1.0.0",
+  "description": "MoodReel – pick a film by how you feel.",
+  "type": "module",
+  "workspaces": [
+    "packages/*",
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=22.12"
+  },
+  "scripts": {
+    "dev": "concurrently -k -n api,web -c yellow,cyan \"npm run dev -w @moodreel/server\" \"npm run dev -w @moodreel/web\"",
+    "build": "npm run build -w @moodreel/web && npm run build -w @moodreel/server",
+    "build:static": "npm run build:static -w @moodreel/web",
+    "start": "npm run start -w @moodreel/server",
+    "test": "npm run test --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "check": "npm run typecheck && npm run test"
+  },
+  "devDependencies": {
+    "concurrently": "^10.0.6",
+    "typescript": "~6.0.3"
+  }
+}

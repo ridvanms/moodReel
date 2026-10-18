@@ -1,0 +1,116 @@
+.deals {
+  display: grid;
+  gap: 1rem;
+}
+.deals__switches {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 0.5rem;
+}
+.deal {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.7rem 0.8rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--line);
+  background: var(--ink-1);
+  text-align: left;
+  transition: border-color 0.2s, background 0.2s;
+}
+.deal:hover {
+  border-color: var(--line-strong);
+}
+.deal.is-on {
+  border-color: rgb(255 159 67 / 0.55);
+  background: var(--tungsten-soft);
+}
+.deal__track {
+  flex: none;
+  position: relative;
+  width: 36px;
+  height: 20px;
+  margin-top: 2px;
+  border-radius: 999px;
+  background: var(--ink-3);
+  transition: background 0.2s;
+}
+.deal__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--paper-2);
+  transition: transform 0.25s var(--ease-out), background 0.2s;
+}
+.deal.is-on .deal__track {
+  background: var(--tungsten);
+}
+.deal.is-on .deal__thumb {
+  transform: translateX(16px);
+  background: var(--tungsten-ink);
+}
+.deal__text {
+  display: grid;
+  gap: 0.1rem;
+  min-width: 0;
+}
+.deal__label {
+  font-weight: 600;
+  font-size: var(--step--1);
+}
+.deal__hint {
+  font-size: var(--step--2);
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+.segmented {
+  border: 0;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 0.4rem;
+  min-width: 0;
+}
+.segmented__options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+.segmented__option {
+  position: relative;
+  padding: 0.4rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  font-size: var(--step--1);
+  color: var(--paper-2);
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s, color 0.2s;
+}
+.segmented__option input {
+  position: absolute;
+  opacity: 0;
+  inset: 0;
+  cursor: pointer;
+}
+.segmented__option:has(input:focus-visible) {
+  outline: 2px solid var(--tungsten);
+  outline-offset: 2px;
+}
+.segmented__option.is-on {
+  border-color: var(--paper);
+  background: var(--paper);
+  color: var(--ink-0);
+  font-weight: 600;
+}
+.deals__note {
+  font-size: var(--step--2);
+  color: var(--muted);
+}

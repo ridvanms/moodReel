@@ -1,0 +1,105 @@
+.print {
+  margin: 0;
+  display: grid;
+  gap: 0.6rem;
+  min-width: 0;
+}
+.print__caption {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 0.4rem 1rem;
+  align-items: center;
+}
+.print__legend {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: var(--step--2);
+  color: var(--paper-2);
+}
+.print__key {
+  display: inline-block;
+  width: 14px;
+  height: 6px;
+  border-radius: 3px;
+  margin-left: 0.4rem;
+}
+.print__key--film {
+  background: var(--chart-warm);
+}
+.print__key--wish {
+  height: 10px;
+  background: rgb(31 158 145 / 0.45);
+  box-shadow: inset 0 0 0 1px var(--chart-cool);
+}
+.print__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--step--1);
+}
+.print__table th {
+  text-align: left;
+  font-weight: 500;
+  color: var(--paper-2);
+  padding: 0.18rem 0.75rem 0.18rem 0;
+  white-space: nowrap;
+  width: 1%;
+}
+.print__cell {
+  width: 100%;
+  padding: 0.18rem 0;
+}
+.print__track {
+  position: relative;
+  display: block;
+  height: 14px;
+}
+.print__track::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 6px;
+  height: 2px;
+  background: var(--chart-track);
+}
+.print__band {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border-radius: 3px;
+  background: rgb(31 158 145 / 0.3);
+  box-shadow: inset 0 0 0 1px rgb(31 158 145 / 0.8);
+}
+.print__target {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  width: 2px;
+  margin-left: -1px;
+  background: var(--chart-cool);
+}
+.print__bar {
+  position: absolute;
+  left: 0;
+  top: 4px;
+  height: 6px;
+  border-radius: 0 3px 3px 0;
+  background: var(--chart-warm);
+  box-shadow: 0 0 0 2px var(--ink-1);
+  transition: width 0.5s var(--ease-out);
+}
+.print__value {
+  text-align: right;
+  padding-left: 0.75rem;
+  white-space: nowrap;
+  color: var(--paper);
+  width: 1%;
+}
+.print__wish {
+  color: var(--muted);
+}
+.print--compact .print__table {
+  font-size: var(--step--2);
+}

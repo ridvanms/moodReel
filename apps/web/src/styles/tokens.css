@@ -1,0 +1,53 @@
+/*
+ * Layout: an editing suite. The control desk sits left, the screen right;
+ * film-stock details (sprocket holes, timecodes, a slate, a ticket stub) mark where films live.
+ * A deliberately dark, single-theme room: cinemas are dark.
+ * Accents follow the teal-and-orange grade of modern film: cool = calm, warm = intense.
+ */
+:root {
+  color-scheme: dark;
+
+  --ink-0: #0b0f12;
+  --ink-1: #11171c;
+  --ink-2: #172028;
+  --ink-3: #1f2a33;
+  --line: #26323c;
+  --line-strong: #3a4955;
+  --paper: #efe6d8;
+  --paper-2: #bdb4a7;
+  --muted: #8a959e;
+
+  --tungsten: #ff9f43;
+  --tungsten-soft: rgb(255 159 67 / 0.14);
+  --tungsten-ink: #1d1004;
+  --teal: #2ec4b6;
+  --teal-soft: rgb(46 196 182 / 0.14);
+
+  /* Chart marks: a pair validated for contrast and colour-blind separation on --ink-1. */
+  --chart-warm: #d4742c;
+  --chart-cool: #1f9e91;
+  --chart-track: #23303a;
+
+  --good: #6fd39b;
+  --warn: #f0c35a;
+  --bad: #ff7b7b;
+
+  --font-display: 'Unbounded Variable', 'Unbounded', 'Arial Black', system-ui, sans-serif;
+  --font-body: 'Onest Variable', 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+
+  --step--2: 0.72rem;
+  --step--1: 0.84rem;
+  --step-0: 1rem;
+  --step-1: 1.2rem;
+  --step-2: 1.5rem;
+  --step-3: clamp(1.7rem, 3.2vw, 2.3rem);
+  --step-4: clamp(2.1rem, 5.4vw, 3.9rem);
+
+  --radius: 16px;
+  --radius-sm: 10px;
+  --gutter-l: max(16px, env(safe-area-inset-left, 0px));
+  --gutter-r: max(16px, env(safe-area-inset-right, 0px));
+  --shadow: 0 18px 50px -20px rgb(0 0 0 / 0.75);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
