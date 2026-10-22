@@ -59,7 +59,7 @@
 
 /* Film stock: sprocket holes along both edges. */
 .sheet__strip {
-  --hole: rgb(11 15 18 / 0.95);
+  --hole: rgb(9 11 20 / 0.95);
   position: relative;
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(18px, 1fr));
@@ -69,7 +69,7 @@
   background:
     radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 4px / 16px 14px repeat-x,
     radial-gradient(circle at 50% 50%, var(--hole) 0 3.5px, transparent 4px) 0 calc(100% - 4px) / 16px 14px repeat-x,
-    #1a1612;
+    #13152a;
   box-shadow: inset 0 0 0 1px rgb(255 255 255 / 0.04);
 }
 .frame {
@@ -90,7 +90,7 @@
   box-shadow: 0 0 0 2px var(--paper);
 }
 .frame.is-hit {
-  box-shadow: 0 0 0 2px var(--tungsten);
+  box-shadow: 0 0 0 2px var(--pink);
 }
 .frame.is-out {
   opacity: 0.16;

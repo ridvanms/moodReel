@@ -4,19 +4,28 @@
 
 > “I want something scary, but not too much.” · “Something mind-bending like The Thing or Black Swan.” · “Pick me a movie, no sad endings.”
 
-MoodReel is not another site full of reviews and trailers. You describe how you feel in plain English, and the site turns that into concrete wishes. It rules out what you don't want (without giving away any endings), ranks 141 hand-profiled films and finally spins a reel that stops on one of them.
+MoodReel is not another site full of reviews and trailers. You pick a feeling, set the rules you care about (“no sad ending”), and the site ranks 141 hand-profiled films without giving away any endings. Then it spins a reel that stops on one of them.
 
-## What it does
+## Pages
 
-| | |
-|---|---|
-| **Say it in words** | A hand-written natural-language parser understands modifiers (“not too”, “very”, “a little”, “less scary”, “even darker”), negation, references to films (“like Black Swan”, “something like Nolan”), eras (“from the 80s”), length (“an hour and a half max”), company (“with the kids”, “date night”) and even your own state (“had a bad day” → something uplifting, not a sad film). Every recognised wish becomes a chip you can remove. Bulgarian input works too. |
-| **No sad ending, no spoilers** | Rules such as “no sad ending”, “no gore”, “no jump scares”, “the animals survive” and “kid-friendly”. The contact sheet shows the whole catalog as film frames; excluded ones go dark with the reason, but the kind of ending stays hidden until you unlock it yourself. |
-| **Control desk** | A mood map (every film plotted by intensity × darkness, with a draggable puck), fine-tune sliders for 10 dimensions and ready-made evenings (“Friday with friends”, “Alone at 2 a.m.”…). |
-| **Pick a film for me** | A weighted draw among the best matches, animated as a spinning film reel, ending in a cinema ticket: why this film, its mood fingerprint against your wish, and “I'll watch it!” / “Another” / “Seen it”. |
-| **The Oracle** | Akinator for films: each next question is the one with the highest expected information gain over the films still left. Five to eight questions usually do it. |
-| **My list** | Saved and already-seen films (seen films are no longer suggested). |
-| **Pulse** | What people picked this week and what they look for compared with the midpoint, built anonymously from “I'll watch it!” votes. |
+| Page | URL | What it does |
+|---|---|---|
+| **Home** | `#/` | The big question, “Pick me a film, no sad ending” in one tap, quick house rules, mood tiles, shelves of matching films and an FAQ. |
+| **Moods** | `#/moods` | Twelve curated moods (“Scary, but not too much”, “Mess with my head”, “Happy ending, guaranteed”…). Each is a named recipe of wishes on the ten dimensions. |
+| **A mood** | `#/moods/<slug>` | The mood explained, the films that define it, the best fits ranked with match percentages, how many films your rules hide and why, and a reel for that mood only. |
+| **Mood lab** | `#/discover` | Build a mood by hand: a mood map with a draggable puck, ten fine-tune sliders, rules, a contact sheet of the whole catalog and ranked results. |
+| **Browse** | `#/browse` | The full catalog as a poster grid with filters (genre, decade, language, length), title/director/theme search, and sorting by feeling (“most fear”, “most laughs”). Filters live in the URL, so any view can be shared. |
+| **Film** | `#/film/<id>` | Poster, pitch, mood fingerprint against your current wish, content warnings, the ending type behind a lock, the moods it fits and its closest neighbours. |
+| **The Oracle** | `#/oracle` | Akinator for films: each next question is the one with the highest expected information gain over the films still left. Answer with keys 1–5; five to eight questions usually do it. |
+| **Atlas** | `#/atlas` | The catalog as data: any two dimensions as a scatter plot, a genre × mood heatmap, films per decade and the community pulse. |
+| **My list** | `#/list` | Saved films with total screen time, “Spin my list”, and seen films (which are no longer suggested anywhere). |
+
+Two things follow you to every page:
+
+- **House rules** – “no sad ending”, “happy endings only”, “no gore”, “no jump scares”, “the animals survive”, “kid-friendly”. They apply to moods, browsing, the Oracle and every pick until you switch them off. Excluded films go dark with the reason, but the kind of ending stays hidden until you unlock it yourself.
+- **Pick for me** – a weighted draw among the best matches, animated as a spinning film reel, ending in a cinema ticket: why this film, its mood fingerprint against your wish, and “I'll watch it!” / “Another” / “Seen it”.
+
+The header search finds films by title, director, year, genre or theme as you type.
 
 ## Architecture
 
@@ -24,7 +33,7 @@ MoodReel is not another site full of reviews and trailers. You describe how you 
 flowchart LR
   subgraph core["packages/core (pure TypeScript, no dependencies)"]
     C[Catalog · 141 films] --> E[Recommendation engine]
-    P[Natural-language parser] --> X[Effects → query]
+    M[Moods · rules · sliders] --> X[Effects → query]
     X --> E
     O[Oracle]
   end
@@ -38,9 +47,10 @@ flowchart LR
   end
 ```
 
-- **`packages/core`** – all the logic, shared by the server and the browser: types, catalog, parser, recommendation engine, the draw and the oracle. No external dependencies; 198 tests.
+- **`packages/core`** – all the logic, shared by the server and the browser: types, catalog, recommendation engine, the draw, the oracle and a natural-language parser (exposed by the API). No external dependencies; 198 tests.
 - **`apps/server`** – an Express 5 API with zod validation, rate limiting, helmet (CSP), compression, structured logs, graceful shutdown and a JSON store with atomic writes (temp file + rename) for community votes. In production it also serves the built client.
-- **`apps/web`** – the React client. One contract (`Api`) has two implementations: an HTTP client for the server and a local one that runs the engine in the browser. If the server does not answer at startup, the site quietly switches to local mode. The same code therefore also builds into **a single HTML file** that needs no server.
+- **`apps/web`** – the React client. One contract (`Api`) has two implementations: an HTTP client for the server and a local one that runs the engine in the browser. If the server does not answer at startup, the site quietly switches to local mode. The same code therefore also builds into **a single HTML file** that needs no server. Pages use a small hash router (`#/film/up-2009`), so deep links work on GitHub Pages and even from a file opened on disk, with scroll positions restored on Back.
+- **Design** – a dark, single-theme screening room: deep navy surfaces, warm off-white text and one hot dark pink (`#e0186f`) reserved for things you can press. Chart colours (pink for the film, blue for your wish) were checked for contrast and colour-blind separation.
 
 ### How a match is scored
 
@@ -115,7 +125,12 @@ moodreel/
 │       ├── nlp/          # normalisation, vocabulary, titles, parser
 │       └── oracle/       # questions and information gain
 ├── apps/server/          # Express API, store, middleware (+ tests)
-└── apps/web/             # React client, styles, state tests
+└── apps/web/             # React client (+ tests)
+    └── src/
+        ├── pages/        # home, moods, mood, lab, browse, film, oracle, atlas, list
+        ├── components/   # header, search, posters, shelves, reel, oracle, charts
+        ├── lib/          # curated moods, search, share links, storage
+        └── state/        # store, API and pick contexts
 ```
 
 ## Notes on the data

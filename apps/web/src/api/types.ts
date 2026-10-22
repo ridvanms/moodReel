@@ -6,7 +6,6 @@ import type {
   MovieSummary,
   OracleState,
   OracleStep,
-  ParseResult,
   PickResult,
   RecommendResult,
 } from '@moodreel/core';
@@ -16,7 +15,6 @@ export interface Api {
   readonly mode: 'remote' | 'local';
   movies(): Promise<MovieSummary[]>;
   movie(id: string): Promise<MovieDetails>;
-  parse(text: string): Promise<ParseResult>;
   recommend(query: MoodQuery, options?: { limit?: number; seed?: number; signal?: AbortSignal }): Promise<RecommendResult>;
   pick(query: MoodQuery, options?: { seed?: number }): Promise<PickResult>;
   oracle(history: OracleStep[], query?: MoodQuery): Promise<OracleState>;

@@ -11,8 +11,8 @@
   cursor: crosshair;
   user-select: none;
   background:
-    linear-gradient(180deg, rgb(239 230 216 / 0.06), rgb(0 0 0 / 0.5)),
-    linear-gradient(90deg, rgb(46 196 182 / 0.22), rgb(23 32 40 / 0.4) 50%, rgb(255 159 67 / 0.24));
+    linear-gradient(180deg, rgb(242 237 241 / 0.06), rgb(0 0 0 / 0.5)),
+    linear-gradient(90deg, rgb(79 143 230 / 0.22), rgb(21 26 43 / 0.4) 50%, rgb(224 24 111 / 0.24));
   border: 1px solid var(--line);
 }
 .moodmap__area::before,
@@ -88,7 +88,7 @@
   transform: scale(1.5);
 }
 .moodmap__dot.is-hit {
-  background: var(--tungsten);
+  background: var(--pink);
   opacity: 1;
   transform: scale(1.25);
 }
@@ -118,8 +118,8 @@
   margin: -15px 0 0 -15px;
   border-radius: 50%;
   border: 3px solid var(--paper);
-  background: radial-gradient(circle, var(--tungsten) 0 38%, transparent 40%);
-  box-shadow: 0 0 0 6px rgb(255 159 67 / 0.2), 0 6px 18px rgb(0 0 0 / 0.6);
+  background: radial-gradient(circle, var(--pink) 0 38%, transparent 40%);
+  box-shadow: 0 0 0 6px rgb(224 24 111 / 0.2), 0 6px 18px rgb(0 0 0 / 0.6);
   z-index: 2;
   padding: 0;
   transition: box-shadow 0.2s;

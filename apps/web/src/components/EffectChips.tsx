@@ -41,7 +41,7 @@ export function EffectChips() {
         )}
       </div>
       {chips.length === 0 ? (
-        <p className="wishes__empty">No wishes yet, so you are looking at the whole catalog. Type something above or move a slider.</p>
+        <p className="wishes__empty">No wishes yet, so you are looking at the whole catalog. Pick a mood above, drag the map or move a slider.</p>
       ) : (
         <ul className="wishes__list">
           <AnimatePresence initial={false}>

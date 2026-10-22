@@ -18,7 +18,7 @@ function fromBase64Url(encoded: string): string {
 export function shareUrl(effects: readonly Effect[]): string {
   const url = new URL(window.location.href);
   url.search = '';
-  url.hash = '';
+  url.hash = '#/discover';
   if (effects.length) url.searchParams.set('m', toBase64Url(JSON.stringify(effects)));
   return url.toString();
 }

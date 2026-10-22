@@ -1,15 +1,7 @@
 import { DEAL_LABEL, type BooleanDealbreaker, type Effect } from '@moodreel/core';
 import { useStore } from '../state/store';
+import { RULES } from './RuleToggles';
 import './Dealbreakers.css';
-
-const SWITCHES: Array<{ key: BooleanDealbreaker; hint: string }> = [
-  { key: 'noSadEnding', hint: 'Drops sad and bleak endings, without telling you which is which.' },
-  { key: 'happyOnly', hint: 'Only films you walk out of smiling.' },
-  { key: 'noGore', hint: 'No blood or graphic violence.' },
-  { key: 'noJumpscares', hint: 'No sudden scares.' },
-  { key: 'noAnimalDeath', hint: 'Not a single animal dies.' },
-  { key: 'familyFriendly', hint: 'Suitable for all ages.' },
-];
 
 type Option = { id: string; label: string; effect: Effect | null };
 
@@ -49,7 +41,7 @@ export function Dealbreakers({ excludedCount }: { excludedCount: Partial<Record<
   return (
     <div className="deals">
       <ul className="deals__switches">
-        {SWITCHES.map(({ key, hint }) => {
+        {RULES.map(({ key, hint }) => {
           const on = Boolean(d[key]);
           return (
             <li key={key}>

@@ -39,7 +39,7 @@
   color: var(--muted);
 }
 .slider.is-active .slider__value {
-  color: var(--tungsten);
+  color: var(--pink-text);
 }
 .slider__reset {
   width: 24px;
@@ -75,7 +75,7 @@
   background: var(--chart-track);
 }
 .slider.is-active input[type='range']::-webkit-slider-runnable-track {
-  background: linear-gradient(90deg, var(--chart-warm) var(--fill), var(--chart-track) var(--fill));
+  background: linear-gradient(90deg, var(--chart-film) var(--fill), var(--chart-track) var(--fill));
 }
 .slider input[type='range']::-moz-range-track {
   height: 6px;
@@ -85,7 +85,7 @@
 .slider.is-active input[type='range']::-moz-range-progress {
   height: 6px;
   border-radius: 999px;
-  background: var(--chart-warm);
+  background: var(--chart-film);
 }
 .slider input[type='range']::-webkit-slider-thumb {
   -webkit-appearance: none;

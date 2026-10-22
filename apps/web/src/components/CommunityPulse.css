@@ -49,7 +49,7 @@
   text-align: left;
 }
 .pulse__top button:hover {
-  color: var(--tungsten);
+  color: var(--pink-text);
 }
 .pulse__top .mono {
   margin-left: 0.5rem;
@@ -92,11 +92,11 @@
   height: 6px;
 }
 .pulse__bar.is-up {
-  background: var(--chart-warm);
+  background: var(--chart-film);
   border-radius: 0 3px 3px 0;
 }
 .pulse__bar.is-down {
-  background: var(--chart-cool);
+  background: var(--chart-wish);
   border-radius: 3px 0 0 3px;
 }
 .pulse__value {

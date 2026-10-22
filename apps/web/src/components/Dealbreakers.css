@@ -26,8 +26,8 @@
   border-color: var(--line-strong);
 }
 .deal.is-on {
-  border-color: rgb(255 159 67 / 0.55);
-  background: var(--tungsten-soft);
+  border-color: rgb(224 24 111 / 0.55);
+  background: var(--pink-soft);
 }
 .deal__track {
   flex: none;
@@ -50,11 +50,11 @@
   transition: transform 0.25s var(--ease-out), background 0.2s;
 }
 .deal.is-on .deal__track {
-  background: var(--tungsten);
+  background: var(--pink);
 }
 .deal.is-on .deal__thumb {
   transform: translateX(16px);
-  background: var(--tungsten-ink);
+  background: var(--on-pink);
 }
 .deal__text {
   display: grid;
@@ -101,7 +101,7 @@
   cursor: pointer;
 }
 .segmented__option:has(input:focus-visible) {
-  outline: 2px solid var(--tungsten);
+  outline: 2px solid var(--pink);
   outline-offset: 2px;
 }
 .segmented__option.is-on {

@@ -3,7 +3,6 @@ import { readJson, writeJson } from '../lib/storage';
 import { Dealbreakers } from './Dealbreakers';
 import { DimSliders } from './DimSliders';
 import { MoodMap } from './MoodMap';
-import { Presets } from './Presets';
 import './Mixer.css';
 
 const TABS = [
@@ -64,15 +63,7 @@ export function Mixer({ highlighted, excluded, byReason, onOpen }: Props) {
         </div>
       </header>
       <div id={`${base}-panel-${tab}`} role="tabpanel" aria-labelledby={`${base}-tab-${tab}`} className="mixer__body">
-        {tab === 'map' && (
-          <>
-            <MoodMap highlighted={highlighted} excluded={excluded} onOpen={onOpen} />
-            <div className="mixer__presets">
-              <p className="eyebrow">Or pick an evening</p>
-              <Presets />
-            </div>
-          </>
-        )}
+        {tab === 'map' && <MoodMap highlighted={highlighted} excluded={excluded} onOpen={onOpen} />}
         {tab === 'fine' && <DimSliders />}
         {tab === 'rules' && <Dealbreakers excludedCount={byReason} />}
       </div>

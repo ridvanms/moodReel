@@ -4,7 +4,9 @@ import { useDialog } from '../hooks/useDialog';
 import { useReducedMotion } from '../hooks/useMediaQuery';
 import { clientId } from '../lib/clientId';
 import { hash, imdbSearch, letterboxdSearch } from '../lib/format';
+import { openFilm } from '../router';
 import { useApi } from '../state/api';
+import type { PickRequest } from '../state/pick';
 import { useStore } from '../state/store';
 import { Fingerprint } from './Fingerprint';
 import { Icon } from './Icon';
@@ -16,10 +18,13 @@ type Phase = 'loading' | 'spinning' | 'ticket' | 'accepted' | 'error';
 const FRAME = 148;
 const GAP = 14;
 const SPIN_MS = 4200;
+const EMPTY: MoodQuery = { dims: {}, like: [], genres: { include: [], exclude: [] }, dealbreakers: {}, exclude: [] };
 
-export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void }) {
+export function PickFlow({ request, onClose }: { request: PickRequest | null; onClose: () => void }) {
   const { api } = useApi();
-  const { query, dispatch } = useStore();
+  const { dispatch } = useStore();
+  const open = request !== null;
+  const query = request?.query ?? EMPTY;
   const reduced = useReducedMotion();
   const dialog = useDialog<HTMLDivElement>(open, onClose);
   const [phase, setPhase] = useState<Phase>('loading');
@@ -44,11 +49,11 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
   }, [api, query, reduced]);
 
   useEffect(() => {
-    if (!open) return;
+    if (!request) return;
     skipped.current = [];
     void roll();
-    // Only when the dialog opens; later rolls are user-driven.
-  }, [open]);
+    // Only when a new request opens the dialog; later rolls are user-driven.
+  }, [request]);
 
   // Spin: ease the strip so the winner lands under the gate, slightly off-centre first, then settle.
   useLayoutEffect(() => {
@@ -103,12 +108,12 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
     void roll();
   };
 
-  if (!open) return null;
+  if (!request) return null;
   const movie = result?.pick.movie;
   const seat = movie ? hash(movie.id + (result?.seed ?? 0)) : 0;
 
   return (
-    <div className="pick" role="dialog" aria-modal="true" aria-label="Tonight’s pick" ref={dialog}>
+    <div className="pick" role="dialog" aria-modal="true" aria-label={`Tonight’s pick: ${request.label}`} ref={dialog}>
       <div className="pick__backdrop" onClick={onClose} />
       <div className="pick__stage">
         <button type="button" className="btn btn--icon btn--ghost pick__close" onClick={onClose} aria-label="Close">
@@ -118,6 +123,7 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
         {(phase === 'loading' || phase === 'spinning') && (
           <div className="reel" aria-live="polite">
             <p className="eyebrow reel__label">{phase === 'loading' ? 'Loading the reel…' : 'The reel is spinning…'}</p>
+            <p className="reel__mood">{request.label}</p>
             <div className="reel__viewport" ref={viewport}>
               <div className="reel__gate" aria-hidden="true" />
               <div className="reel__strip" ref={strip} style={{ gap: GAP }}>
@@ -136,7 +142,7 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
             <h2>Nothing left to spin</h2>
             <p>{error}</p>
             <button type="button" className="btn btn--primary" onClick={onClose} data-autofocus>
-              Back to my rules
+              Back
             </button>
           </div>
         )}
@@ -144,7 +150,7 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
         {(phase === 'ticket' || phase === 'accepted') && movie && result && (
           <article className="ticket" aria-labelledby="ticket-title">
             <div className="ticket__main">
-              <p className="ticket__brand mono">MoodReel · screening tonight</p>
+              <p className="ticket__brand mono">MoodReel · screening tonight · {request.label}</p>
               <div className="ticket__film">
                 <Poster movie={movie} size="lg" className="ticket__poster" />
                 <div className="ticket__info">
@@ -197,6 +203,16 @@ export function PickFlow({ open, onClose }: { open: boolean; onClose: () => void
               ) : (
                 <>
                   <p className="ticket__done">Enjoy the film! I saved it to your list.</p>
+                  <button
+                    type="button"
+                    className="btn"
+                    onClick={() => {
+                      onClose();
+                      openFilm(movie.id);
+                    }}
+                  >
+                    Film page <Icon name="arrow" size={14} />
+                  </button>
                   <a className="btn" href={imdbSearch(movie.title, movie.year)} target="_blank" rel="noreferrer">
                     IMDb <Icon name="external" size={14} />
                   </a>

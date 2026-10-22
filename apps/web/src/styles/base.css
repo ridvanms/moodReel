@@ -28,8 +28,8 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(70rem 32rem at 18% -8%, rgb(255 159 67 / 0.09), transparent 60%),
-    radial-gradient(60rem 30rem at 92% 4%, rgb(46 196 182 / 0.07), transparent 60%);
+    radial-gradient(70rem 32rem at 12% -10%, rgb(224 24 111 / 0.12), transparent 60%),
+    radial-gradient(60rem 30rem at 95% 0%, rgb(79 143 230 / 0.06), transparent 60%);
   z-index: 0;
 }
 body::after {
@@ -64,7 +64,7 @@ p {
 }
 
 a {
-  color: var(--tungsten);
+  color: var(--pink-text);
   text-underline-offset: 0.2em;
 }
 
@@ -81,14 +81,18 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--tungsten);
+  outline: 2px solid var(--pink-text);
   outline-offset: 2px;
   border-radius: 6px;
 }
 
 ::selection {
-  background: var(--tungsten);
-  color: var(--tungsten-ink);
+  background: var(--pink);
+  color: var(--on-pink);
+}
+
+html {
+  scroll-padding-top: calc(var(--header-h) + 12px);
 }
 
 .visually-hidden {
@@ -143,13 +147,22 @@ button {
   cursor: not-allowed;
 }
 .btn--primary {
-  background: var(--tungsten);
-  border-color: var(--tungsten);
-  color: var(--tungsten-ink);
+  background: var(--pink);
+  border-color: var(--pink-text);
+  color: var(--on-pink);
 }
 .btn--primary:hover {
-  background: #ffb066;
-  border-color: #ffb066;
+  background: var(--pink-hover);
+  border-color: var(--pink-hover);
+  box-shadow: 0 10px 30px -12px var(--pink-glow);
+}
+.btn--primary:active {
+  background: var(--pink-press);
+}
+.btn--large {
+  min-height: 54px;
+  padding: 0.8rem 1.6rem;
+  font-size: var(--step-0);
 }
 .btn--ghost {
   background: transparent;
@@ -170,6 +183,41 @@ button {
   width: 40px;
   min-height: 40px;
   padding: 0;
+}
+
+a.btn {
+  text-decoration: none;
+}
+
+/* ── Shared bits ── */
+.btn.is-saved {
+  border-color: var(--pink-line);
+  background: var(--pink-soft);
+  color: var(--pink-text);
+}
+
+.ending {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 30px;
+  padding: 0.2rem 0.7rem;
+  border-radius: 999px;
+  border: 1px dashed var(--line-strong);
+  background: transparent;
+  font-size: var(--step--2);
+  color: var(--paper-2);
+}
+.ending:hover {
+  border-color: var(--paper-2);
+  color: var(--paper);
+}
+.ending.is-open {
+  border-style: solid;
+  color: var(--paper);
+}
+.ending__hint {
+  color: var(--muted);
 }
 
 /* ── Chips ─────────────────────────────────────────────────────────────── */
@@ -211,6 +259,102 @@ button {
 }
 .section-head h2 {
   font-size: var(--step-1);
+}
+
+/* ── Page scaffolding ──────────────────────────────────────────────────── */
+.page {
+  max-width: var(--page);
+  margin: 0 auto;
+  padding: 2rem var(--gutter-r) 5rem var(--gutter-l);
+  display: grid;
+  gap: 3rem;
+}
+.page-head {
+  display: grid;
+  gap: 0.75rem;
+  max-width: 60rem;
+}
+.page-head h1 {
+  font-size: var(--step-4);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.02;
+}
+.page-head h1 em {
+  font-style: normal;
+  color: var(--pink-text);
+}
+.page-head__lead {
+  color: var(--paper-2);
+  font-size: var(--step-1);
+  max-width: 62ch;
+  line-height: 1.5;
+}
+.kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--pink-text);
+}
+.kicker::before {
+  content: '';
+  width: 1.4rem;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+}
+.section {
+  display: grid;
+  gap: 1.25rem;
+  min-width: 0;
+}
+.section__head {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.section__head h2 {
+  font-size: var(--step-3);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+.section__head p {
+  color: var(--paper-2);
+  max-width: 60ch;
+  margin-top: 0.35rem;
+}
+.link-arrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--paper);
+  font-weight: 600;
+  font-size: var(--step--1);
+  text-decoration: none;
+  white-space: nowrap;
+}
+.link-arrow svg {
+  color: var(--pink-text);
+  transition: transform 0.25s var(--ease-out);
+}
+.link-arrow:hover {
+  color: var(--pink-text);
+}
+.link-arrow:hover svg {
+  transform: translateX(3px);
+}
+
+@media (max-width: 720px) {
+  .page {
+    padding-top: 1.25rem;
+    gap: 2.25rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

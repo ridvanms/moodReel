@@ -1,6 +1,5 @@
 import {
   buildReel,
-  createParser,
   createRng,
   exclusionReason,
   pickOne,
@@ -9,7 +8,7 @@ import {
   runOracle,
   similarMovies,
 } from '@moodreel/core';
-import { MOVIES, SUMMARIES } from '@moodreel/core/catalog';
+import { SUMMARIES } from '@moodreel/core/catalog';
 import { ApiError, type Api } from './types';
 
 /**
@@ -18,7 +17,6 @@ import { ApiError, type Api } from './types';
  * features need a shared backend, so they are simply absent here.
  */
 export function createLocalApi(): Api {
-  const parser = createParser(MOVIES);
   const byId = new Map(SUMMARIES.map((m) => [m.id, m]));
 
   return {
@@ -29,7 +27,6 @@ export function createLocalApi(): Api {
       if (!movie) throw new ApiError('That film is not in the catalog.', 404, 'movie_not_found');
       return { movie, similar: similarMovies(movie, SUMMARIES, 6).map((s) => ({ movie: s.ref, similarity: Math.round(s.similarity * 100) })) };
     },
-    parse: async (text) => parser.parse(text.slice(0, 400)),
     recommend: async (query, options = {}) => recommend(SUMMARIES, query, { limit: options.limit ?? 12, ...(options.seed !== undefined ? { seed: options.seed } : {}) }),
     pick: async (query, options = {}) => {
       const seed = options.seed ?? randomSeed();

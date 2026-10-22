@@ -34,7 +34,6 @@ export function createRemoteApi(): Api {
     mode: 'remote',
     movies: async () => (await request<{ movies: Awaited<ReturnType<Api['movies']>> }>('/movies')).movies,
     movie: (id) => request(`/movies/${encodeURIComponent(id)}`),
-    parse: (text) => request('/parse', { method: 'POST', json: { text } }),
     recommend: (query, options = {}) =>
       request('/recommend', { method: 'POST', json: { query, limit: options.limit ?? 12, seed: options.seed }, ...(options.signal ? { signal: options.signal } : {}) }),
     pick: (query, options = {}) => request('/pick', { method: 'POST', json: { query, seed: options.seed } }),

@@ -26,12 +26,12 @@
   margin-left: 0.4rem;
 }
 .print__key--film {
-  background: var(--chart-warm);
+  background: var(--chart-film);
 }
 .print__key--wish {
   height: 10px;
-  background: rgb(31 158 145 / 0.45);
-  box-shadow: inset 0 0 0 1px var(--chart-cool);
+  background: rgb(79 143 230 / 0.45);
+  box-shadow: inset 0 0 0 1px var(--chart-wish);
 }
 .print__table {
   width: 100%;
@@ -69,8 +69,8 @@
   top: 0;
   bottom: 0;
   border-radius: 3px;
-  background: rgb(31 158 145 / 0.3);
-  box-shadow: inset 0 0 0 1px rgb(31 158 145 / 0.8);
+  background: rgb(79 143 230 / 0.3);
+  box-shadow: inset 0 0 0 1px rgb(79 143 230 / 0.8);
 }
 .print__target {
   position: absolute;
@@ -78,7 +78,7 @@
   bottom: -2px;
   width: 2px;
   margin-left: -1px;
-  background: var(--chart-cool);
+  background: var(--chart-wish);
 }
 .print__bar {
   position: absolute;
@@ -86,7 +86,7 @@
   top: 4px;
   height: 6px;
   border-radius: 0 3px 3px 0;
-  background: var(--chart-warm);
+  background: var(--chart-film);
   box-shadow: 0 0 0 2px var(--ink-1);
   transition: width 0.5s var(--ease-out);
 }
@@ -102,4 +102,9 @@
 }
 .print--compact .print__table {
   font-size: var(--step--2);
+}
+@media (max-width: 560px) {
+  .print__wish {
+    display: none;
+  }
 }
