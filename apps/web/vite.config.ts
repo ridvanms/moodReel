@@ -9,6 +9,8 @@ import { viteSingleFile } from 'vite-plugin-singlefile';
 export default defineConfig(({ mode }) => {
   const standalone = mode === 'standalone';
   return {
+    // Relative URLs so the static build works from any folder, e.g. github.io/<repo>/.
+    base: standalone ? './' : '/',
     plugins: [react(), ...(standalone ? [viteSingleFile({ removeViteModuleLoader: true })] : [])],
     define: {
       'import.meta.env.VITE_API_MODE': JSON.stringify(standalone ? 'local' : (process.env.VITE_API_MODE ?? 'remote')),

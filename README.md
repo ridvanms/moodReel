@@ -1,5 +1,7 @@
 # MoodReel – pick a film by how you feel
 
+**Live site:** https://ridvanms.github.io/moodReel/
+
 > “I want something scary, but not too much.” · “Something mind-bending like The Thing or Black Swan.” · “Pick me a movie, no sad endings.”
 
 MoodReel is not another site full of reviews and trailers. You describe how you feel in plain English, and the site turns that into concrete wishes. It rules out what you don't want (without giving away any endings), ranks 141 hand-profiled films and finally spins a reel that stops on one of them.
