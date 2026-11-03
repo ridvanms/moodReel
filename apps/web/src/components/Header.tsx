@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import type { Api } from '../api';
 import { Link, currentPath, useLocationHash } from '../router';
 import { useStore } from '../state/store';
 import { Icon } from './Icon';
@@ -18,7 +17,7 @@ export function isActive(to: string, path: string): boolean {
   return to === '/' ? path === '/' : path === to || path.startsWith(`${to}/`);
 }
 
-export function Header({ mode }: { mode: Api['mode'] }) {
+export function Header() {
   const hash = useLocationHash();
   const path = currentPath(hash);
   const { state } = useStore();
@@ -64,11 +63,6 @@ export function Header({ mode }: { mode: Api['mode'] }) {
         </div>
 
         <div className="topbar__tools">
-          {mode === 'local' && (
-            <span className="topbar__mode" title="The recommendation engine runs entirely in your browser">
-              offline engine
-            </span>
-          )}
           <button type="button" className="btn btn--icon btn--ghost topbar__search-toggle" aria-label="Search" aria-expanded={searching} onClick={() => setSearching((s) => !s)}>
             <Icon name={searching ? 'close' : 'search'} />
           </button>

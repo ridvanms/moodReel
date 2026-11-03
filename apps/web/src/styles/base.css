@@ -28,8 +28,7 @@ body::before {
   inset: 0;
   pointer-events: none;
   background:
-    radial-gradient(70rem 32rem at 12% -10%, rgb(224 24 111 / 0.12), transparent 60%),
-    radial-gradient(60rem 30rem at 95% 0%, rgb(79 143 230 / 0.06), transparent 60%);
+    radial-gradient(70rem 30rem at 12% -10%, rgb(224 24 111 / 0.08), transparent 60%);
   z-index: 0;
 }
 body::after {

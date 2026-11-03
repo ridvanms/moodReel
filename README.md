@@ -1,8 +1,6 @@
-# MoodReel – pick a film by how you feel
+# MoodReel
 
 **Live site:** https://ridvanms.github.io/moodReel/
-
-> “I want something scary, but not too much.” · “Something mind-bending like The Thing or Black Swan.” · “Pick me a movie, no sad endings.”
 
 MoodReel helps you decide what to watch tonight. Pick a genre, answer a few questions from the Oracle and get one film with its description, then keep it in your watchlist. Rules like “no sad ending” rule films out without ever giving away an ending.
 
@@ -10,13 +8,13 @@ MoodReel helps you decide what to watch tonight. Pick a genre, answer a few ques
 
 | Page | URL | What it does |
 |---|---|---|
-| **Home** | `#/` | “Ask the Oracle”, quick rules, genres, newest films and an FAQ. |
-| **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists all of its films, with sorting, rules and a button to ask the Oracle about that genre. |
-| **Oracle** | `#/oracle` | Step 1: pick a genre (or any). Step 2: yes/no questions, each one chosen for the highest expected information gain over the films still left. Step 3: the film and its description. Keys 1–5 answer. |
-| **Film** | `#/film/<id>` | Poster, description, mood profile, content warnings, the ending type behind a lock and similar films. |
-| **Watchlist** | `#/list` | Saved films with total screen time, and seen films (no longer suggested). |
+| **Home** | `#/` | “Ask the Oracle”, “Browse genres” and every genre. |
+| **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists its films. |
+| **Oracle** | `#/oracle` | Pick a genre (or any) and answer yes/no questions until one film is left. Each question is the one with the highest expected information gain over the films still in the running. An optional “no sad ending” switch rules out sad and bleak endings. |
+| **Film** | `#/film/<id>` | Poster, description, content warnings and similar films. |
+| **Watchlist** | `#/list` | Saved films and films you have seen. |
 
-The header search finds films by title, director, year, genre or theme. The footer also links to three extras: **All films** (`#/browse`, the whole catalog with filters), the **Mood lab** (`#/discover`, a mood map and ten sliders) and the **Atlas** (`#/atlas`, charts of the catalog).
+The header search finds films by title, director or year; Enter opens **All films** (`#/browse`) with the results.
 
 ## Architecture
 
@@ -24,7 +22,7 @@ The header search finds films by title, director, year, genre or theme. The foot
 flowchart LR
   subgraph core["packages/core (pure TypeScript, no dependencies)"]
     C[Catalog · 141 films] --> E[Recommendation engine]
-    M[Genres · rules · sliders] --> X[Effects → query]
+    M[Genre · rules] --> X[Effects → query]
     X --> E
     O[Oracle]
   end
@@ -41,7 +39,7 @@ flowchart LR
 - **`packages/core`** – all the logic, shared by the server and the browser: types, catalog, recommendation engine, the draw, the oracle and a natural-language parser (exposed by the API). No external dependencies; 198 tests.
 - **`apps/server`** – an Express 5 API with zod validation, rate limiting, helmet (CSP), compression, structured logs, graceful shutdown and a JSON store with atomic writes (temp file + rename) for community votes. In production it also serves the built client.
 - **`apps/web`** – the React client. One contract (`Api`) has two implementations: an HTTP client for the server and a local one that runs the engine in the browser. If the server does not answer at startup, the site quietly switches to local mode. The same code therefore also builds into **a single HTML file** that needs no server. Pages use a small hash router (`#/film/up-2009`), so deep links work on GitHub Pages and even from a file opened on disk, with scroll positions restored on Back.
-- **Design** – a dark, single-theme screening room: deep navy surfaces, warm off-white text and one hot dark pink (`#e0186f`) reserved for things you can press. Chart colours (pink for the film, blue for your wish) were checked for contrast and colour-blind separation.
+- **Design** – a dark, single-theme screening room: deep navy surfaces, warm off-white text and one hot dark pink (`#e0186f`) reserved for things you can press.
 
 ### How a match is scored
 
@@ -118,10 +116,10 @@ moodreel/
 ├── apps/server/          # Express API, store, middleware (+ tests)
 └── apps/web/             # React client (+ tests)
     └── src/
-        ├── pages/        # home, genres, oracle, film, watchlist + browse, lab, atlas
-        ├── components/   # header, search, posters, shelves, oracle, charts
-        ├── lib/          # genres, search, share links, storage
-        └── state/        # store, API and pick contexts
+        ├── pages/        # home, genres, oracle, film, watchlist, all films
+        ├── components/   # header, search, posters, shelves, oracle
+        ├── lib/          # genres, search, storage
+        └── state/        # store and API context
 ```
 
 ## Notes on the data

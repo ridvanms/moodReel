@@ -3,7 +3,7 @@ import { useStore } from '../state/store';
 import './RuleToggles.css';
 
 export const RULES: Array<{ key: BooleanDealbreaker; hint: string }> = [
-  { key: 'noSadEnding', hint: 'Drops sad and bleak endings, without telling you which is which.' },
+  { key: 'noSadEnding', hint: 'Skips films with a sad ending, without telling you which ones.' },
   { key: 'happyOnly', hint: 'Only films you walk out of smiling.' },
   { key: 'noGore', hint: 'No blood or graphic violence.' },
   { key: 'noJumpscares', hint: 'No sudden scares.' },
@@ -13,7 +13,7 @@ export const RULES: Array<{ key: BooleanDealbreaker; hint: string }> = [
 
 /** Standing rules as switches. They live in the store, so every page and every pick respects them. */
 export function RuleToggles({ only, size = 'md' }: { only?: BooleanDealbreaker[]; size?: 'md' | 'lg' }) {
-  const { query, dispatch } = useStore();
+  const { rulesQuery: query, dispatch } = useStore();
   const rules = only ? RULES.filter((r) => only.includes(r.key)) : RULES;
   return (
     <ul className={`rules rules--${size}`}>

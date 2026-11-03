@@ -1,32 +1,19 @@
-import { emptyQuery, exclusionReason, GENRES, type Effect } from '@moodreel/core';
+import { emptyQuery, exclusionReason, GENRES } from '@moodreel/core';
 import { SUMMARIES } from '@moodreel/core/catalog';
 import { describe, expect, it } from 'vitest';
-import { padEffects } from '../src/components/MoodMap';
 import { isGenre, withGenre } from '../src/lib/genres';
 import { searchCatalog } from '../src/lib/search';
 import { parseLocation } from '../src/router';
-import { effectChips, reducer, type MoodState } from '../src/state/store';
+import { reducer, type MoodState } from '../src/state/store';
 
 const byId = new Map(SUMMARIES.map((m) => [m.id, m]));
-const empty: MoodState = { effects: [], pad: null, seen: [], watchlist: [], seed: 1 };
-const laughs: Effect = { kind: 'dim', dim: 'humor', constraint: { target: 8 } };
+const empty: MoodState = { effects: [], seen: [], watchlist: [] };
 
 describe('store reducer', () => {
-  it('clear drops the mood and keeps the rules; clearRules does the opposite', () => {
-    let state = reducer(empty, { type: 'upsert', effect: { kind: 'deal', key: 'noGore' } });
-    state = reducer(state, { type: 'upsert', effect: laughs });
-    expect(reducer(state, { type: 'clear' }).effects).toEqual([{ kind: 'deal', key: 'noGore' }]);
-    expect(reducer(state, { type: 'clearRules' }).effects).toEqual([laughs]);
-  });
-
-  it('moving the map puck replaces its previous wishes and clears when they are removed', () => {
-    let state = reducer(empty, { type: 'pad', pad: { x: 0.9, y: 0.9 }, effects: padEffects(0.9, 0.9) });
-    state = reducer(state, { type: 'pad', pad: { x: 0.1, y: 0.1 }, effects: padEffects(0.1, 0.1) });
-    const chips = effectChips(state.effects, byId);
-    expect(chips).toHaveLength(1);
-    expect(chips[0]!.label).toContain('calm');
-    state = reducer(state, { type: 'remove', keys: chips[0]!.keys });
-    expect(state.pad).toBeNull();
+  it('switches a rule on and off', () => {
+    const on = reducer(empty, { type: 'upsert', effect: { kind: 'deal', key: 'noSadEnding' } });
+    expect(on.effects).toEqual([{ kind: 'deal', key: 'noSadEnding' }]);
+    expect(reducer(on, { type: 'remove', keys: ['deal:noSadEnding'] }).effects).toEqual([]);
   });
 
   it('marking a film as seen drops it from the watchlist', () => {

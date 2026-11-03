@@ -1,69 +1,26 @@
-.gcard--all {
-  border-style: dashed;
-  border-color: var(--line-strong);
-  background: transparent;
-}
-.gcard__all-mark {
-  display: grid;
-  place-items: center;
-  width: 72px;
-  height: 72px;
-  align-self: end;
-  border-radius: 18px;
-  background: var(--pink-soft);
-  color: var(--pink-text);
-}
 .genre__head {
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 1.5rem;
+  gap: 1.25rem;
 }
-.genre__head .kicker a {
-  color: inherit;
+.genre__crumb {
+  font-size: var(--step--1);
+  color: var(--muted);
+}
+.genre__crumb a {
+  color: var(--paper-2);
   text-decoration: none;
 }
-.genre__head .kicker a:hover {
-  text-decoration: underline;
-}
-.genre__actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
-}
-.genre__bar {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  padding: 1rem 1.1rem;
-  border-radius: var(--radius);
-  border: 1px solid var(--line);
-  background: var(--ink-1);
+.genre__crumb a:hover {
+  color: var(--pink-text);
 }
 .genre__sort {
-  min-width: 180px;
-}
-.genre__count {
-  color: var(--paper-2);
-  font-size: var(--step--1);
-}
-.genre__count b {
-  color: var(--paper);
-  font-family: var(--font-display);
-  font-size: var(--step-1);
+  justify-self: end;
+  min-width: 170px;
 }
 .genre__more {
   justify-self: center;
   margin-top: 1rem;
-}
-.genre__others-title {
-  font-size: var(--step-1);
-}
-.genre__others {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
 }
