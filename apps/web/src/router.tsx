@@ -6,17 +6,17 @@ import { useEffect, useSyncExternalStore, type AnchorHTMLAttributes, type MouseE
  *
  *   #/                 home
  *   #/film/up-2009     a film
- *   #/browse?genre=x   a page with its own query string
+ *   #/oracle?genre=x   a page with its own query string
  */
 
 export type Route =
   | { page: 'home' }
   | { page: 'discover' }
-  | { page: 'moods' }
-  | { page: 'mood'; slug: string }
+  | { page: 'genres' }
+  | { page: 'genre'; genre: string; params: URLSearchParams }
   | { page: 'browse'; params: URLSearchParams }
   | { page: 'film'; id: string }
-  | { page: 'oracle' }
+  | { page: 'oracle'; params: URLSearchParams }
   | { page: 'atlas' }
   | { page: 'list' }
   | { page: 'missing'; path: string };
@@ -31,14 +31,14 @@ export function parseLocation(hash: string): Route {
       return { page: 'home' };
     case 'discover':
       return { page: 'discover' };
-    case 'moods':
-      return arg ? { page: 'mood', slug: arg } : { page: 'moods' };
+    case 'genres':
+      return arg ? { page: 'genre', genre: arg, params: new URLSearchParams(search) } : { page: 'genres' };
     case 'browse':
       return { page: 'browse', params: new URLSearchParams(search) };
     case 'film':
       return arg ? { page: 'film', id: arg } : { page: 'missing', path: raw };
     case 'oracle':
-      return { page: 'oracle' };
+      return { page: 'oracle', params: new URLSearchParams(search) };
     case 'atlas':
       return { page: 'atlas' };
     case 'list':

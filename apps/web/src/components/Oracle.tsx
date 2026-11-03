@@ -1,8 +1,9 @@
-import { QUESTIONS, timecode, type OracleAnswer, type OracleState, type OracleStep } from '@moodreel/core';
+import { emptyQuery, GENRE_LABEL, QUESTIONS, timecode, type Genre, type OracleAnswer, type OracleState, type OracleStep } from '@moodreel/core';
 import { AnimatePresence, motion } from 'motion/react';
 import { useCallback, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { clientId } from '../lib/clientId';
-import { Link } from '../router';
+import { withGenre } from '../lib/genres';
+import { Link, navigate } from '../router';
 import { useApi } from '../state/api';
 import { useStore } from '../state/store';
 import { Icon } from './Icon';
@@ -18,7 +19,8 @@ const ANSWERS: Array<{ id: OracleAnswer; label: string; short: string }> = [
 ];
 const ANSWER_LABEL = Object.fromEntries(ANSWERS.map((a) => [a.id, a.label])) as Record<OracleAnswer, string>;
 
-export function Oracle() {
+/** `genre` is null for "any genre"; the genre is chosen on the step before the questions. */
+export function Oracle({ genre }: { genre: Genre | null }) {
   const { api, catalog } = useApi();
   const { rulesQuery, dispatch } = useStore();
   const ruleCount = Object.keys(rulesQuery.dealbreakers).length;
@@ -35,7 +37,9 @@ export function Oracle() {
       setThinking(true);
       try {
         setError('');
-        const next = await api.oracle(steps, respectRules && ruleCount > 0 ? rulesQuery : undefined);
+        const base = respectRules && ruleCount > 0 ? rulesQuery : emptyQuery();
+        const query = withGenre(base, genre, catalog);
+        const next = await api.oracle(steps, query.exclude.length || ruleCount ? query : undefined);
         if (steps.length === 0) total.current = Math.round(next.effectiveCandidates);
         setState(next);
       } catch (e) {
@@ -44,13 +48,13 @@ export function Oracle() {
         setThinking(false);
       }
     },
-    [api, rulesQuery, respectRules, ruleCount],
+    [api, catalog, genre, rulesQuery, respectRules, ruleCount],
   );
 
   useEffect(() => {
     void run(history);
-    // Re-run only when the answers or the rule toggle change, not when unrelated state elsewhere moves.
-  }, [history, respectRules]);
+    // Re-run only when the answers, the genre or the rule toggle change, not when unrelated state elsewhere moves.
+  }, [history, respectRules, genre]);
 
   const answer = useCallback(
     (id: OracleAnswer) => {
@@ -95,11 +99,14 @@ export function Oracle() {
     <section className="oracle" aria-labelledby="oracle-title">
       <div className="oracle__intro">
         <div>
-          <p className="kicker">The Oracle</p>
-          <h1 id="oracle-title">
-            Not sure what you want? <em>Ask the Oracle.</em>
-          </h1>
+          <p className="kicker">The Oracle · step {state?.done ? 3 : 2} of 3</p>
+          <h1 id="oracle-title">{genre ? <>The Oracle: <em>{GENRE_LABEL[genre].toLowerCase()}</em></> : <>The Oracle: <em>any genre</em></>}</h1>
           <p className="oracle__lead">Answer a few questions. Each one is chosen to split the films still in the running as evenly as possible, so five to eight answers usually do it.</p>
+          <p>
+            <button type="button" className="link-arrow link-arrow--button" onClick={() => navigate('/oracle')}>
+              <Icon name="arrow" size={14} className="flip" /> Change genre
+            </button>
+          </p>
         </div>
         {ruleCount > 0 && (
           <label className="oracle__rules">

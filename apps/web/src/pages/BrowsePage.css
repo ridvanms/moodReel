@@ -23,8 +23,7 @@
   color: var(--muted);
   pointer-events: none;
 }
-.browse__search input,
-.fselect select {
+.browse__search input {
   width: 100%;
   min-height: 46px;
   border-radius: 12px;
@@ -36,59 +35,14 @@
 .browse__search input {
   padding: 0.5rem 0.9rem 0.5rem 2.6rem;
 }
-.browse__search input:focus,
-.fselect select:focus {
+.browse__search input:focus {
   outline: none;
   border-color: var(--pink-line);
-}
-.fselect {
-  position: relative;
-  display: grid;
-  gap: 0.3rem;
-}
-.fselect__label {
-  font-family: var(--font-mono);
-  font-size: 0.66rem;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--muted);
-}
-.fselect select {
-  appearance: none;
-  padding: 0.5rem 2.2rem 0.5rem 0.85rem;
-  cursor: pointer;
-}
-.fselect__chev {
-  position: absolute;
-  right: 0.75rem;
-  bottom: 15px;
-  color: var(--muted);
-  pointer-events: none;
 }
 .browse__genres {
   display: flex;
   flex-wrap: wrap;
   gap: 0.4rem;
-}
-.gchip {
-  min-height: 36px;
-  padding: 0.25rem 0.85rem;
-  border-radius: 999px;
-  border: 1px solid var(--line-strong);
-  background: transparent;
-  color: var(--paper-2);
-  font-size: var(--step--1);
-  font-weight: 600;
-  transition: background 0.2s, border-color 0.2s, color 0.2s;
-}
-.gchip:hover {
-  color: var(--paper);
-  border-color: var(--paper-2);
-}
-.gchip.is-on {
-  background: var(--pink);
-  border-color: var(--pink);
-  color: var(--on-pink);
 }
 .browse__rules {
   border-top: 1px solid var(--line);

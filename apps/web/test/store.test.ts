@@ -1,46 +1,22 @@
-import { buildQuery, recommend, type Effect } from '@moodreel/core';
+import { emptyQuery, exclusionReason, GENRES, type Effect } from '@moodreel/core';
 import { SUMMARIES } from '@moodreel/core/catalog';
 import { describe, expect, it } from 'vitest';
 import { padEffects } from '../src/components/MoodMap';
-import { MOODS, moodEffects, moodQuery, OPENING_EFFECTS } from '../src/lib/moods';
+import { isGenre, withGenre } from '../src/lib/genres';
 import { searchCatalog } from '../src/lib/search';
 import { parseLocation } from '../src/router';
 import { effectChips, reducer, type MoodState } from '../src/state/store';
 
 const byId = new Map(SUMMARIES.map((m) => [m.id, m]));
 const empty: MoodState = { effects: [], pad: null, seen: [], watchlist: [], seed: 1 };
-const mood = (slug: string) => MOODS.find((m) => m.slug === slug)!;
-const apply = (state: MoodState, slug: string, mode: 'replace' | 'refine' = 'replace') => reducer(state, { type: 'apply', effects: moodEffects(mood(slug)), mode });
+const laughs: Effect = { kind: 'dim', dim: 'humor', constraint: { target: 8 } };
 
 describe('store reducer', () => {
-  it('a new mood replaces the old one but keeps standing rules', () => {
-    let state = reducer(empty, { type: 'upsert', effect: { kind: 'deal', key: 'noSadEnding' } });
-    state = apply(state, 'make-me-laugh');
-    state = apply(state, 'mess-with-my-head');
-    const chips = effectChips(state.effects, byId);
-    expect(chips.map((c) => c.label)).toEqual(['No sad ending', 'Mess with my head']);
-  });
-
   it('clear drops the mood and keeps the rules; clearRules does the opposite', () => {
     let state = reducer(empty, { type: 'upsert', effect: { kind: 'deal', key: 'noGore' } });
-    state = apply(state, 'date-night');
+    state = reducer(state, { type: 'upsert', effect: laughs });
     expect(reducer(state, { type: 'clear' }).effects).toEqual([{ kind: 'deal', key: 'noGore' }]);
-    expect(reducer(state, { type: 'clearRules' }).effects.every((e) => e.kind !== 'deal' || e.group)).toBe(true);
-  });
-
-  it('removes a whole mood at once', () => {
-    const state = apply(empty, 'cozy-rainy-sunday');
-    const chips = effectChips(state.effects, byId);
-    expect(chips).toHaveLength(1);
-    expect(reducer(state, { type: 'remove', keys: chips[0]!.keys }).effects).toHaveLength(0);
-  });
-
-  it('a slider detaches a dimension from its mood group', () => {
-    const state = apply(empty, 'make-me-laugh');
-    const next = reducer(state, { type: 'upsert', effect: { kind: 'dim', dim: 'humor', constraint: { target: 9 } } });
-    const humor = next.effects.find((e): e is Extract<Effect, { kind: 'dim' }> => e.kind === 'dim' && e.dim === 'humor');
-    expect(humor?.group).toBeUndefined();
-    expect(humor?.constraint.target).toBe(9);
+    expect(reducer(state, { type: 'clearRules' }).effects).toEqual([laughs]);
   });
 
   it('moving the map puck replaces its previous wishes and clears when they are removed', () => {
@@ -61,31 +37,23 @@ describe('store reducer', () => {
   });
 });
 
-describe('moods', () => {
-  it('only reference films that exist', () => {
-    for (const m of MOODS) {
-      for (const id of m.think) expect(byId.has(id), `${m.slug}: ${id}`).toBe(true);
-      for (const e of m.effects) if (e.kind === 'like') expect(byId.has(e.movieId)).toBe(true);
+describe('genres', () => {
+  it('restricts a query to one genre without touching the rules', () => {
+    const base = { ...emptyQuery(), dealbreakers: { noSadEnding: true } };
+    const horror = withGenre(base, 'horror', SUMMARIES);
+    const left = SUMMARIES.filter((m) => !exclusionReason(m, horror));
+    expect(left.length).toBeGreaterThan(5);
+    for (const m of left) {
+      expect(m.genres).toContain('horror');
+      expect(['sad', 'bleak']).not.toContain(m.ending);
     }
-    expect(new Set(MOODS.map((m) => m.slug)).size).toBe(MOODS.length);
+    expect(withGenre(base, null, SUMMARIES)).toBe(base);
   });
 
-  it('every mood finds at least six films, even with “no sad ending” on', () => {
-    const rules: Effect[] = [{ kind: 'deal', key: 'noSadEnding' }];
-    for (const m of MOODS) {
-      const { results } = recommend(SUMMARIES, moodQuery(m, rules, []), { limit: 12 });
-      expect(results.length, m.slug).toBeGreaterThanOrEqual(6);
-    }
-  });
-
-  it('the opening mood is the brief: scary but not too much, no sad ending', () => {
-    const query = buildQuery(OPENING_EFFECTS);
-    expect(query.dealbreakers.noSadEnding).toBe(true);
-    const { results } = recommend(SUMMARIES, query, { limit: 8 });
-    for (const r of results) {
-      expect(['sad', 'bleak']).not.toContain(r.movie.ending);
-      expect(r.movie.profile.fear).toBeLessThanOrEqual(7);
-    }
+  it('recognises genre slugs from the URL', () => {
+    expect(GENRES.every(isGenre)).toBe(true);
+    expect(isGenre('nope')).toBe(false);
+    expect(isGenre(null)).toBe(false);
   });
 });
 
@@ -94,8 +62,12 @@ describe('router', () => {
     expect(parseLocation('')).toEqual({ page: 'home' });
     expect(parseLocation('#/')).toEqual({ page: 'home' });
     expect(parseLocation('#/film/up-2009')).toEqual({ page: 'film', id: 'up-2009' });
-    expect(parseLocation('#/moods/date-night')).toEqual({ page: 'mood', slug: 'date-night' });
-    expect(parseLocation('#/moods')).toEqual({ page: 'moods' });
+    expect(parseLocation('#/genres')).toEqual({ page: 'genres' });
+    const genre = parseLocation('#/genres/horror?sort=old');
+    expect(genre.page === 'genre' && [genre.genre, genre.params.get('sort')]).toEqual(['horror', 'old']);
+    const oracle = parseLocation('#/oracle?genre=comedy');
+    expect(oracle.page === 'oracle' && oracle.params.get('genre')).toBe('comedy');
+    expect(parseLocation('#/moods').page).toBe('missing');
     const browse = parseLocation('#/browse?genre=horror&q=the%20thing');
     expect(browse.page === 'browse' && browse.params.get('q')).toBe('the thing');
     expect(parseLocation('#/nope').page).toBe('missing');

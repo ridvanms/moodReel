@@ -1,21 +1,6 @@
 .lab {
   gap: 2rem;
 }
-.lab__head {
-  display: grid;
-  grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-  gap: 2rem;
-  align-items: end;
-}
-.lab__starters {
-  display: grid;
-  gap: 0.6rem;
-}
-.lab__starter-list {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.4rem;
-}
 .desk {
   display: grid;
   grid-template-columns: minmax(330px, 420px) minmax(0, 1fr);
@@ -37,9 +22,6 @@
   display: none;
 }
 @media (max-width: 1080px) {
-  .lab__head {
-    grid-template-columns: minmax(0, 1fr);
-  }
   .desk {
     grid-template-columns: minmax(0, 1fr);
   }

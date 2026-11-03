@@ -5,7 +5,6 @@ import { Icon } from '../components/Icon';
 import { Mixer } from '../components/Mixer';
 import { Results } from '../components/Results';
 import { useRecommendations } from '../hooks/useRecommendations';
-import { MOODS, moodEffects } from '../lib/moods';
 import { openFilm } from '../router';
 import { usePick } from '../state/pick';
 import { useStore } from '../state/store';
@@ -13,7 +12,7 @@ import './DiscoverPage.css';
 
 /** The mood lab: build a mood by hand and watch the catalog respond. */
 export function DiscoverPage() {
-  const { state, query, dispatch } = useStore();
+  const { state, query } = useStore();
   const pick = usePick();
   const { data, loading, error } = useRecommendations(query, state.seed);
   const highlighted = useMemo(() => new Set((data?.results ?? []).slice(0, 6).map((r) => r.movie.id)), [data]);
@@ -21,24 +20,12 @@ export function DiscoverPage() {
 
   return (
     <div className="page lab">
-      <header className="lab__head">
-        <div className="page-head">
+      <header className="page-head">
           <p className="kicker">Mood lab</p>
           <h1>
             Mix a mood <em>by hand</em>
           </h1>
           <p className="page-head__lead">Drag the puck across the mood map, fine-tune ten dimensions and set your rules. The whole catalog reacts as you go.</p>
-        </div>
-        <div className="lab__starters" aria-label="Start from a mood">
-          <p className="eyebrow">Start from</p>
-          <div className="lab__starter-list">
-            {MOODS.map((mood) => (
-              <button key={mood.slug} type="button" className="gchip" onClick={() => dispatch({ type: 'apply', effects: moodEffects(mood), mode: 'replace' })}>
-                {mood.title}
-              </button>
-            ))}
-          </div>
-        </div>
       </header>
 
       <EffectChips />

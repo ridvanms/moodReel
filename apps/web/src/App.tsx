@@ -1,19 +1,17 @@
-import type { MovieSummary } from '@moodreel/core';
+import type { Effect, MovieSummary } from '@moodreel/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { createApi, type Api } from './api';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
 import { PickFlow } from './components/PickFlow';
-import { OPENING_EFFECTS } from './lib/moods';
 import { AtlasPage } from './pages/AtlasPage';
 import { BrowsePage } from './pages/BrowsePage';
 import { DiscoverPage } from './pages/DiscoverPage';
 import { FilmPage } from './pages/FilmPage';
 import { HomePage } from './pages/HomePage';
 import { ListPage } from './pages/ListPage';
-import { MoodPage } from './pages/MoodPage';
-import { MoodsPage } from './pages/MoodsPage';
+import { GenrePage, GenresPage } from './pages/GenresPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OraclePage } from './pages/OraclePage';
 import { useLocationHash, useRoute, useScrollRestoration, type Route } from './router';
@@ -22,6 +20,9 @@ import { PickContext, type PickRequest } from './state/pick';
 import { StoreProvider } from './state/store';
 import './App.css';
 
+/** The first visit starts with the brief's one rule: no sad endings. */
+const OPENING_RULES: Effect[] = [{ kind: 'deal', key: 'noSadEnding' }];
+
 interface Boot {
   api: Api;
   catalog: MovieSummary[];
@@ -29,11 +30,11 @@ interface Boot {
 
 const TITLES: Partial<Record<Route['page'], string>> = {
   discover: 'Mood lab',
-  moods: 'Moods',
-  browse: 'Browse',
+  genres: 'Genres',
+  browse: 'All films',
   oracle: 'The Oracle',
   atlas: 'Atlas',
-  list: 'My list',
+  list: 'Watchlist',
 };
 
 export function App() {
@@ -72,7 +73,7 @@ export function App() {
 
   return (
     <ApiProvider value={{ api: boot.api, catalog: boot.catalog, byId }}>
-      <StoreProvider defaults={OPENING_EFFECTS}>
+      <StoreProvider defaults={OPENING_RULES}>
         <Shell />
       </StoreProvider>
     </ApiProvider>
@@ -90,7 +91,7 @@ function Shell() {
   useEffect(() => {
     const title = TITLES[route.page];
     // The film page sets its own title from the film.
-    if (route.page !== 'film') document.title = title ? `${title} · MoodReel` : 'MoodReel – pick a film by how you feel';
+    if (route.page !== 'film' && route.page !== 'genre') document.title = title ? `${title} · MoodReel` : 'MoodReel – pick a film by how you feel';
   }, [route.page]);
 
   return (
@@ -115,16 +116,16 @@ function Page({ route }: { route: Route }) {
       return <HomePage />;
     case 'discover':
       return <DiscoverPage />;
-    case 'moods':
-      return <MoodsPage />;
-    case 'mood':
-      return <MoodPage slug={route.slug} />;
+    case 'genres':
+      return <GenresPage />;
+    case 'genre':
+      return <GenrePage genre={route.genre} params={route.params} />;
     case 'browse':
       return <BrowsePage params={route.params} />;
     case 'film':
       return <FilmPage key={route.id} id={route.id} />;
     case 'oracle':
-      return <OraclePage />;
+      return <OraclePage params={route.params} />;
     case 'atlas':
       return <AtlasPage />;
     case 'list':

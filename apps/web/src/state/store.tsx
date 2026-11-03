@@ -2,13 +2,11 @@ import {
   buildQuery,
   describeEffect,
   effectKey,
-  mergeEffects,
   removeEffect,
   upsertEffect,
   type Effect,
   type MoodQuery,
   type MovieSummary,
-  type ParsedEffect,
 } from '@moodreel/core';
 import { createContext, useContext, useEffect, useMemo, useReducer, type Dispatch, type ReactNode } from 'react';
 import { readSharedEffects } from '../lib/share';
@@ -27,8 +25,6 @@ export interface MoodState {
 }
 
 export type Action =
-  /** A named bundle of wishes (a mood, an evening); replaces the current mood or refines it. */
-  | { type: 'apply'; effects: ParsedEffect[]; mode: 'replace' | 'refine' }
   | { type: 'upsert'; effect: Effect }
   | { type: 'remove'; keys: string[] }
   | { type: 'clear' }
@@ -40,24 +36,14 @@ export type Action =
   | { type: 'shuffle' };
 
 const STORAGE_KEY = 'moodreel:lists:v1';
-const MOOD_KEY = 'moodreel:mood:v1';
+const MOOD_KEY = 'moodreel:mood:v2';
 
-/** Rules that hold on every page (moods, browse, the Oracle), not just in the mood lab. */
+/** Rules that hold on every page (genres, browse, the Oracle), not just in the mood lab. */
 export const RULE_KINDS = new Set<Effect['kind']>(['deal', 'runtime', 'era', 'animation']);
 export const isRule = (e: Effect) => RULE_KINDS.has(e.kind);
 
 export function reducer(state: MoodState, action: Action): MoodState {
   switch (action.type) {
-    case 'apply': {
-      // A fresh mood keeps your standing rules: "no sad ending" should not vanish because you changed your mind about laughs.
-      const rules = state.effects.filter((e) => isRule(e) && !e.group);
-      const merged = mergeEffects(action.mode === 'replace' ? rules : state.effects, action.effects, 'refine');
-      // A rule you switched on yourself stays yours even when the mood repeats it, so clearing the mood keeps it.
-      const own = new Map(rules.map((e) => [effectKey(e), e]));
-      const effects = merged.map((e) => own.get(effectKey(e)) ?? e);
-      const padAlive = effects.some((e) => e.group?.startsWith(PAD_GROUP_PREFIX));
-      return { ...state, effects, pad: padAlive ? state.pad : null };
-    }
     case 'upsert': {
       // A slider touching a dimension detaches it from whatever phrase or map position set it.
       const { group: _group, ...effect } = action.effect;

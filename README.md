@@ -4,28 +4,19 @@
 
 > “I want something scary, but not too much.” · “Something mind-bending like The Thing or Black Swan.” · “Pick me a movie, no sad endings.”
 
-MoodReel is not another site full of reviews and trailers. You pick a feeling, set the rules you care about (“no sad ending”), and the site ranks 141 hand-profiled films without giving away any endings. Then it spins a reel that stops on one of them.
+MoodReel helps you decide what to watch tonight. Pick a genre, answer a few questions from the Oracle and get one film with its description, then keep it in your watchlist. Rules like “no sad ending” rule films out without ever giving away an ending.
 
 ## Pages
 
 | Page | URL | What it does |
 |---|---|---|
-| **Home** | `#/` | The big question, “Pick me a film, no sad ending” in one tap, quick house rules, mood tiles, shelves of matching films and an FAQ. |
-| **Moods** | `#/moods` | Twelve curated moods (“Scary, but not too much”, “Mess with my head”, “Happy ending, guaranteed”…). Each is a named recipe of wishes on the ten dimensions. |
-| **A mood** | `#/moods/<slug>` | The mood explained, the films that define it, the best fits ranked with match percentages, how many films your rules hide and why, and a reel for that mood only. |
-| **Mood lab** | `#/discover` | Build a mood by hand: a mood map with a draggable puck, ten fine-tune sliders, rules, a contact sheet of the whole catalog and ranked results. |
-| **Browse** | `#/browse` | The full catalog as a poster grid with filters (genre, decade, language, length), title/director/theme search, and sorting by feeling (“most fear”, “most laughs”). Filters live in the URL, so any view can be shared. |
-| **Film** | `#/film/<id>` | Poster, pitch, mood fingerprint against your current wish, content warnings, the ending type behind a lock, the moods it fits and its closest neighbours. |
-| **The Oracle** | `#/oracle` | Akinator for films: each next question is the one with the highest expected information gain over the films still left. Answer with keys 1–5; five to eight questions usually do it. |
-| **Atlas** | `#/atlas` | The catalog as data: any two dimensions as a scatter plot, a genre × mood heatmap, films per decade and the community pulse. |
-| **My list** | `#/list` | Saved films with total screen time, “Spin my list”, and seen films (which are no longer suggested anywhere). |
+| **Home** | `#/` | “Ask the Oracle”, “Pick me a film, no sad ending”, quick rules, genres, newest films and an FAQ. |
+| **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists all of its films, with sorting, rules and buttons to ask the Oracle or pick one at random. |
+| **Oracle** | `#/oracle` | Step 1: pick a genre (or any). Step 2: yes/no questions, each one chosen for the highest expected information gain over the films still left. Step 3: the film and its description. Keys 1–5 answer. |
+| **Film** | `#/film/<id>` | Poster, description, mood profile, content warnings, the ending type behind a lock and similar films. |
+| **Watchlist** | `#/list` | Saved films with total screen time, a random pick from the list, and seen films (no longer suggested). |
 
-Two things follow you to every page:
-
-- **House rules** – “no sad ending”, “happy endings only”, “no gore”, “no jump scares”, “the animals survive”, “kid-friendly”. They apply to moods, browsing, the Oracle and every pick until you switch them off. Excluded films go dark with the reason, but the kind of ending stays hidden until you unlock it yourself.
-- **Pick for me** – a weighted draw among the best matches, animated as a spinning film reel, ending in a cinema ticket: why this film, its mood fingerprint against your wish, and “I'll watch it!” / “Another” / “Seen it”.
-
-The header search finds films by title, director, year, genre or theme as you type.
+The header search finds films by title, director, year, genre or theme. The footer also links to three extras: **All films** (`#/browse`, the whole catalog with filters), the **Mood lab** (`#/discover`, a mood map and ten sliders) and the **Atlas** (`#/atlas`, charts of the catalog).
 
 ## Architecture
 
@@ -33,7 +24,7 @@ The header search finds films by title, director, year, genre or theme as you ty
 flowchart LR
   subgraph core["packages/core (pure TypeScript, no dependencies)"]
     C[Catalog · 141 films] --> E[Recommendation engine]
-    M[Moods · rules · sliders] --> X[Effects → query]
+    M[Genres · rules · sliders] --> X[Effects → query]
     X --> E
     O[Oracle]
   end
@@ -127,9 +118,9 @@ moodreel/
 ├── apps/server/          # Express API, store, middleware (+ tests)
 └── apps/web/             # React client (+ tests)
     └── src/
-        ├── pages/        # home, moods, mood, lab, browse, film, oracle, atlas, list
+        ├── pages/        # home, genres, oracle, film, watchlist + browse, lab, atlas
         ├── components/   # header, search, posters, shelves, reel, oracle, charts
-        ├── lib/          # curated moods, search, share links, storage
+        ├── lib/          # genres, search, share links, storage
         └── state/        # store, API and pick contexts
 ```
 

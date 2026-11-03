@@ -22,15 +22,15 @@ export function ListPage() {
   // The reel only spins over your list: everything else is excluded.
   const spinList = () => {
     const keep = new Set(state.watchlist);
-    pick({ query: buildQuery([], catalog.filter((m) => !keep.has(m.id)).map((m) => m.id)), label: 'From my list' });
+    pick({ query: buildQuery([], catalog.filter((m) => !keep.has(m.id)).map((m) => m.id)), label: 'From my watchlist' });
   };
 
   return (
     <div className="page list">
       <header className="page-head list__head">
-        <p className="kicker">My list</p>
+        <p className="kicker">Watchlist</p>
         <h1>
-          Saved for <em>later</em>
+          Your <em>watchlist</em>
         </h1>
         <p className="page-head__lead">Kept in this browser only, no account needed. Films you mark as seen stop being suggested anywhere on the site.</p>
       </header>
@@ -50,7 +50,7 @@ export function ListPage() {
               <b>{runtimeLabel(totalMinutes)}</b> of screen time
             </span>
             <button type="button" className="btn btn--primary" onClick={spinList} disabled={saved.length < 2}>
-              <Icon name="reel" size={16} /> Spin my list
+              <Icon name="reel" size={16} /> Pick one from my watchlist
             </button>
           </div>
         )}
@@ -60,10 +60,13 @@ export function ListPage() {
         (saved.length === 0 ? (
           <div className="empty list__empty">
             <h3>Nothing saved yet</h3>
-            <p>Press “Save” on any poster, or “I’ll watch it!” when the reel stops, and the film will wait for you here.</p>
-            <p>
-              <Link to="/moods" className="btn btn--primary">
-                Find something by mood <Icon name="arrow" size={16} />
+            <p>Press “Save” on any poster, or “I’ll watch it!” after the Oracle chooses, and the film will wait for you here.</p>
+            <p className="list__empty-actions">
+              <Link to="/oracle" className="btn btn--primary">
+                <Icon name="orb" size={16} /> Ask the Oracle
+              </Link>
+              <Link to="/genres" className="btn">
+                Browse genres <Icon name="arrow" size={16} />
               </Link>
             </p>
           </div>
@@ -101,7 +104,7 @@ export function ListPage() {
         (seen.length === 0 ? (
           <div className="empty list__empty">
             <h3>No seen films yet</h3>
-            <p>Mark a film as seen and it stops appearing in moods, picks and the Oracle.</p>
+            <p>Mark a film as seen and the Oracle and the picks stop suggesting it.</p>
           </div>
         ) : (
           <ul className="list__seen">

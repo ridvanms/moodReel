@@ -75,7 +75,7 @@ export function BrowsePage({ params }: { params: URLSearchParams }) {
   return (
     <div className="page browse">
       <header className="page-head">
-        <p className="kicker">Browse</p>
+        <p className="kicker">All films</p>
         <h1>
           The whole <em>catalog</em>
         </h1>
