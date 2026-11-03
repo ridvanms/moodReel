@@ -5,10 +5,9 @@ import { Icon } from '../components/Icon';
 import { PosterCard } from '../components/PosterCard';
 import { RuleToggles } from '../components/RuleToggles';
 import { hash } from '../lib/format';
-import { GENRE_LINE, isGenre, withGenre } from '../lib/genres';
+import { GENRE_LINE, isGenre } from '../lib/genres';
 import { Link, navigate } from '../router';
 import { useApi } from '../state/api';
-import { usePick } from '../state/pick';
 import { useStore } from '../state/store';
 import { NotFoundPage } from './NotFoundPage';
 import './GenresPage.css';
@@ -38,7 +37,7 @@ export function GenresPage() {
         <h1>
           What kind of film <em>tonight?</em>
         </h1>
-        <p className="page-head__lead">Pick a genre to see every film in it. From there you can open any film, save it to your watchlist or let the Oracle choose.</p>
+        <p className="page-head__lead">Pick a genre to see every film in it. From there you can open any film, add it to your watchlist or ask the Oracle.</p>
       </header>
       <ul className="ggrid">
         {GENRES.filter((g) => (films.get(g)?.length ?? 0) > 0).map((g) => (
@@ -79,7 +78,6 @@ export function GenrePage({ genre: raw, params }: { genre: string; params: URLSe
 function GenreView({ genre, params }: { genre: Genre; params: URLSearchParams }) {
   const { catalog } = useApi();
   const { rulesQuery } = useStore();
-  const pick = usePick();
   const [limit, setLimit] = useState(42);
   const sort = SORTS.find((s) => s.id === params.get('sort'))?.id ?? 'new';
   const rules = useMemo(() => ({ ...rulesQuery, exclude: [] }), [rulesQuery]);
@@ -113,14 +111,6 @@ function GenreView({ genre, params }: { genre: Genre; params: URLSearchParams })
           <Link to={`/oracle?genre=${genre}`} className="btn btn--primary btn--large">
             <Icon name="orb" size={18} /> Ask the Oracle
           </Link>
-          <button
-            type="button"
-            className="btn btn--large"
-            disabled={!shown.length}
-            onClick={() => pick({ query: withGenre(rulesQuery, genre, catalog), label: `A ${label.toLowerCase()} film` })}
-          >
-            <Icon name="reel" size={18} /> Pick one for me
-          </button>
         </div>
       </header>
 

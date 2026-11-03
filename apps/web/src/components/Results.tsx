@@ -11,10 +11,9 @@ interface Props {
   loading: boolean;
   error: string | null;
   onOpen: (id: string) => void;
-  onPick: () => void;
 }
 
-export function Results({ data, loading, error, onOpen, onPick }: Props) {
+export function Results({ data, loading, error, onOpen }: Props) {
   const { dispatch } = useStore();
   const [expanded, setExpanded] = useState(false);
   const all = data?.results ?? [];
@@ -33,9 +32,6 @@ export function Results({ data, loading, error, onOpen, onPick }: Props) {
           <button type="button" className="btn btn--ghost" onClick={() => dispatch({ type: 'shuffle' })} title="Reorder equally good matches">
             <Icon name="shuffle" size={16} /> Shuffle
           </button>
-          <button type="button" className="btn btn--primary" onClick={onPick} disabled={!all.length}>
-            <Icon name="reel" size={16} /> Pick a film for me
-          </button>
         </div>
       </div>
 
@@ -48,7 +44,7 @@ export function Results({ data, loading, error, onOpen, onPick }: Props) {
       {!error && data && results.length === 0 && (
         <div className="results__empty">
           <h3>Your rules ruled out everything</h3>
-          <p>Remove a wish above or switch off a rule in the “Rules” tab and the reel will fill up again.</p>
+          <p>Remove a wish above or switch off a rule in the “Rules” tab and the list will fill up again.</p>
         </div>
       )}
 

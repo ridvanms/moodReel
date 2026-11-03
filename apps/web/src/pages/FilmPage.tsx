@@ -1,4 +1,4 @@
-import { buildQuery, GENRE_LABEL, runtimeLabel, tagLabel, timecode, type MovieDetails } from '@moodreel/core';
+import { GENRE_LABEL, runtimeLabel, tagLabel, timecode, type MovieDetails } from '@moodreel/core';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { EndingReveal } from '../components/EndingReveal';
 import { Fingerprint } from '../components/Fingerprint';
@@ -8,7 +8,6 @@ import { Shelf } from '../components/Shelf';
 import { imdbSearch, letterboxdSearch } from '../lib/format';
 import { Link, navigate } from '../router';
 import { useApi } from '../state/api';
-import { usePick } from '../state/pick';
 import { useStore } from '../state/store';
 import { NotFoundPage } from './NotFoundPage';
 import './FilmPage.css';
@@ -21,8 +20,7 @@ const FLAGS = [
 
 export function FilmPage({ id }: { id: string }) {
   const { api, byId } = useApi();
-  const { state, query, rules, dispatch } = useStore();
-  const pick = usePick();
+  const { state, query, dispatch } = useStore();
   const [details, setDetails] = useState<MovieDetails | null>(null);
   const movie = byId.get(id);
 
@@ -51,7 +49,6 @@ export function FilmPage({ id }: { id: string }) {
   const [bg, a, b] = movie.palette;
   const hasWish = Object.keys(query.dims).length > 0;
 
-  const likeThis = () => buildQuery([...rules, { kind: 'like', movieId: movie.id }], [...state.seen, movie.id]);
 
   return (
     <article className="film" style={{ '--f-bg': bg, '--f-a': a, '--f-b': b } as CSSProperties}>
@@ -95,9 +92,6 @@ export function FilmPage({ id }: { id: string }) {
                 </button>
                 <button type="button" className="btn" aria-pressed={seen} onClick={() => dispatch({ type: 'toggleSeen', id: movie.id })}>
                   <Icon name="eye" size={16} /> {seen ? 'Marked as seen' : 'Seen it'}
-                </button>
-                <button type="button" className="btn btn--ghost" onClick={() => pick({ query: likeThis(), label: `Something like ${movie.title}` })}>
-                  <Icon name="reel" size={16} /> Spin something like it
                 </button>
               </div>
             </div>

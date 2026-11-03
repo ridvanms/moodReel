@@ -9,7 +9,6 @@ import { Shelf } from '../components/Shelf';
 import { hash } from '../lib/format';
 import { Link } from '../router';
 import { useApi } from '../state/api';
-import { usePick } from '../state/pick';
 import { useStore } from '../state/store';
 import { useGenreFilms } from './GenresPage';
 import './HomePage.css';
@@ -19,7 +18,6 @@ const HOME_GENRES = ['horror', 'thriller', 'comedy', 'romance', 'scifi', 'drama'
 export function HomePage() {
   const { api, catalog } = useApi();
   const { state, rulesQuery } = useStore();
-  const pick = usePick();
   const films = useGenreFilms();
   const [stats, setStats] = useState<CommunityStats | null>(null);
 
@@ -34,7 +32,6 @@ export function HomePage() {
     };
   }, [api]);
 
-  const noSad = Boolean(rulesQuery.dealbreakers.noSadEnding || rulesQuery.dealbreakers.happyOnly);
   const rules = useMemo(() => ({ ...rulesQuery, exclude: [] }), [rulesQuery]);
   const newest = useMemo(() => catalog.filter((m) => !exclusionReason(m, rules)).sort((a, b) => b.year - a.year).slice(0, 14), [catalog, rules]);
 
@@ -52,10 +49,9 @@ export function HomePage() {
             <Link to="/oracle" className="btn btn--primary btn--large hero__pick">
               <Icon name="orb" size={20} /> Ask the Oracle
             </Link>
-            <button type="button" className="btn btn--large hero__oracle" onClick={() => pick({ query: rulesQuery, label: noSad ? 'Anything, no sad ending' : 'Surprise me' })}>
-              <Icon name="reel" size={18} />
-              {noSad ? 'Pick me a film, no sad ending' : 'Pick me a film'}
-            </button>
+            <Link to="/genres" className="btn btn--large hero__oracle">
+              <Icon name="search" size={18} /> Browse genres
+            </Link>
           </div>
           <div className="hero__rules">
             <RuleToggles only={['noSadEnding', 'noGore', 'noJumpscares']} />
@@ -178,7 +174,7 @@ const FAQ = [
   },
   {
     q: 'What does “no sad ending” exclude?',
-    a: 'Films whose ending is sad or bleak. The rule applies to the genres, the Oracle and every pick until you switch it off.',
+    a: 'Films whose ending is sad or bleak. The rule applies to the genres and the Oracle until you switch it off.',
   },
   {
     q: 'Where do the posters come from?',

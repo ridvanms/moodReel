@@ -1,29 +1,21 @@
-import { buildQuery, runtimeLabel, type MovieSummary } from '@moodreel/core';
+import { runtimeLabel, type MovieSummary } from '@moodreel/core';
 import { useState } from 'react';
 import { Icon } from '../components/Icon';
 import { Poster } from '../components/Poster';
 import { Link } from '../router';
 import { useApi } from '../state/api';
-import { usePick } from '../state/pick';
 import { useStore } from '../state/store';
 import './ListPage.css';
 
 type Tab = 'watch' | 'seen';
 
 export function ListPage() {
-  const { catalog, byId } = useApi();
+  const { byId } = useApi();
   const { state, dispatch } = useStore();
-  const pick = usePick();
   const [tab, setTab] = useState<Tab>('watch');
   const saved = state.watchlist.map((id) => byId.get(id)).filter((m): m is MovieSummary => m !== undefined);
   const seen = state.seen.map((id) => byId.get(id)).filter((m): m is MovieSummary => m !== undefined);
   const totalMinutes = saved.reduce((sum, m) => sum + m.runtime, 0);
-
-  // The reel only spins over your list: everything else is excluded.
-  const spinList = () => {
-    const keep = new Set(state.watchlist);
-    pick({ query: buildQuery([], catalog.filter((m) => !keep.has(m.id)).map((m) => m.id)), label: 'From my watchlist' });
-  };
 
   return (
     <div className="page list">
@@ -49,9 +41,6 @@ export function ListPage() {
             <span>
               <b>{runtimeLabel(totalMinutes)}</b> of screen time
             </span>
-            <button type="button" className="btn btn--primary" onClick={spinList} disabled={saved.length < 2}>
-              <Icon name="reel" size={16} /> Pick one from my watchlist
-            </button>
           </div>
         )}
       </div>
@@ -104,7 +93,7 @@ export function ListPage() {
         (seen.length === 0 ? (
           <div className="empty list__empty">
             <h3>No seen films yet</h3>
-            <p>Mark a film as seen and the Oracle and the picks stop suggesting it.</p>
+            <p>Mark a film as seen and the Oracle stops suggesting it.</p>
           </div>
         ) : (
           <ul className="list__seen">

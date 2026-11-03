@@ -1,10 +1,9 @@
 import type { Effect, MovieSummary } from '@moodreel/core';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { createApi, type Api } from './api';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
-import { PickFlow } from './components/PickFlow';
 import { AtlasPage } from './pages/AtlasPage';
 import { BrowsePage } from './pages/BrowsePage';
 import { DiscoverPage } from './pages/DiscoverPage';
@@ -16,7 +15,6 @@ import { NotFoundPage } from './pages/NotFoundPage';
 import { OraclePage } from './pages/OraclePage';
 import { useLocationHash, useRoute, useScrollRestoration, type Route } from './router';
 import { ApiProvider, useApi } from './state/api';
-import { PickContext, type PickRequest } from './state/pick';
 import { StoreProvider } from './state/store';
 import './App.css';
 
@@ -84,8 +82,6 @@ function Shell() {
   const { api } = useApi();
   const hash = useLocationHash();
   const route = useRoute();
-  const [pick, setPick] = useState<PickRequest | null>(null);
-  const openPick = useCallback((request: PickRequest) => setPick(request), []);
   useScrollRestoration(hash);
 
   useEffect(() => {
@@ -95,7 +91,7 @@ function Shell() {
   }, [route.page]);
 
   return (
-    <PickContext.Provider value={openPick}>
+    <>
       <a className="skip" href="#main" onClick={(e) => (e.preventDefault(), document.getElementById('main')?.focus())}>
         Skip to content
       </a>
@@ -105,8 +101,7 @@ function Shell() {
         <Page route={route} />
       </main>
       <Footer />
-      <PickFlow request={pick} onClose={() => setPick(null)} />
-    </PickContext.Provider>
+    </>
   );
 }
 

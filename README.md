@@ -10,11 +10,11 @@ MoodReel helps you decide what to watch tonight. Pick a genre, answer a few ques
 
 | Page | URL | What it does |
 |---|---|---|
-| **Home** | `#/` | “Ask the Oracle”, “Pick me a film, no sad ending”, quick rules, genres, newest films and an FAQ. |
-| **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists all of its films, with sorting, rules and buttons to ask the Oracle or pick one at random. |
+| **Home** | `#/` | “Ask the Oracle”, quick rules, genres, newest films and an FAQ. |
+| **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists all of its films, with sorting, rules and a button to ask the Oracle about that genre. |
 | **Oracle** | `#/oracle` | Step 1: pick a genre (or any). Step 2: yes/no questions, each one chosen for the highest expected information gain over the films still left. Step 3: the film and its description. Keys 1–5 answer. |
 | **Film** | `#/film/<id>` | Poster, description, mood profile, content warnings, the ending type behind a lock and similar films. |
-| **Watchlist** | `#/list` | Saved films with total screen time, a random pick from the list, and seen films (no longer suggested). |
+| **Watchlist** | `#/list` | Saved films with total screen time, and seen films (no longer suggested). |
 
 The header search finds films by title, director, year, genre or theme. The footer also links to three extras: **All films** (`#/browse`, the whole catalog with filters), the **Mood lab** (`#/discover`, a mood map and ten sliders) and the **Atlas** (`#/atlas`, charts of the catalog).
 
@@ -50,7 +50,7 @@ flowchart LR
 3. Dimensions combine through a **weighted geometric mean**, so one badly missed wish drags the whole score down, as it should. Similarity to example films (distance in profile space plus Jaccard over themes), genre affinity (“scary” prefers horror over a war film that happens to score 4 on fear) and keywords join the same mean.
 4. **Maximal Marginal Relevance** decides which 12 films to show, so the list is not ten copies of the same film.
 5. Community votes enter as a small (±5%) Bayesian prior with Beta(2, 2), so one lucky vote cannot launch a film to the top.
-6. “Pick a film for me” draws with a softmax over the scores: almost always from the top, but not robotically.
+6. The `/api/pick` endpoint draws with a softmax over the scores: almost always from the top, but not robotically. (The website itself leaves the choosing to the Oracle.)
 
 ### The Oracle
 
@@ -119,7 +119,7 @@ moodreel/
 └── apps/web/             # React client (+ tests)
     └── src/
         ├── pages/        # home, genres, oracle, film, watchlist + browse, lab, atlas
-        ├── components/   # header, search, posters, shelves, reel, oracle, charts
+        ├── components/   # header, search, posters, shelves, oracle, charts
         ├── lib/          # genres, search, share links, storage
         └── state/        # store, API and pick contexts
 ```
