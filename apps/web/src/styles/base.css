@@ -195,30 +195,6 @@ a.btn {
   color: var(--pink-text);
 }
 
-.ending {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  min-height: 30px;
-  padding: 0.2rem 0.7rem;
-  border-radius: 999px;
-  border: 1px dashed var(--line-strong);
-  background: transparent;
-  font-size: var(--step--2);
-  color: var(--paper-2);
-}
-.ending:hover {
-  border-color: var(--paper-2);
-  color: var(--paper);
-}
-.ending.is-open {
-  border-style: solid;
-  color: var(--paper);
-}
-.ending__hint {
-  color: var(--muted);
-}
-
 /* ── Chips ─────────────────────────────────────────────────────────────── */
 .chip {
   display: inline-flex;

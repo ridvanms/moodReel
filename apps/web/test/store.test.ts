@@ -7,15 +7,9 @@ import { parseLocation } from '../src/router';
 import { reducer, type MoodState } from '../src/state/store';
 
 const byId = new Map(SUMMARIES.map((m) => [m.id, m]));
-const empty: MoodState = { effects: [], seen: [], watchlist: [] };
+const empty: MoodState = { seen: [], watchlist: [] };
 
 describe('store reducer', () => {
-  it('switches a rule on and off', () => {
-    const on = reducer(empty, { type: 'upsert', effect: { kind: 'deal', key: 'noSadEnding' } });
-    expect(on.effects).toEqual([{ kind: 'deal', key: 'noSadEnding' }]);
-    expect(reducer(on, { type: 'remove', keys: ['deal:noSadEnding'] }).effects).toEqual([]);
-  });
-
   it('marking a film as seen drops it from the watchlist', () => {
     let state = reducer(empty, { type: 'addWatch', id: 'up-2009' });
     state = reducer(state, { type: 'toggleSeen', id: 'up-2009' });
@@ -25,14 +19,14 @@ describe('store reducer', () => {
 });
 
 describe('genres', () => {
-  it('restricts a query to one genre without touching the rules', () => {
-    const base = { ...emptyQuery(), dealbreakers: { noSadEnding: true } };
+  it('restricts a query to one genre and keeps excluding seen films', () => {
+    const base = { ...emptyQuery(), exclude: ['the-shining-1980'] };
     const horror = withGenre(base, 'horror', SUMMARIES);
     const left = SUMMARIES.filter((m) => !exclusionReason(m, horror));
     expect(left.length).toBeGreaterThan(5);
     for (const m of left) {
       expect(m.genres).toContain('horror');
-      expect(['sad', 'bleak']).not.toContain(m.ending);
+      expect(m.id).not.toBe('the-shining-1980');
     }
     expect(withGenre(base, null, SUMMARIES)).toBe(base);
   });

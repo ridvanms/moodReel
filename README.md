@@ -2,7 +2,7 @@
 
 **Live site:** https://ridvanms.github.io/moodReel/
 
-MoodReel helps you decide what to watch tonight. Pick a genre, answer a few questions from the Oracle and get one film with its description, then keep it in your watchlist. Rules like “no sad ending” rule films out without ever giving away an ending.
+MoodReel helps you decide what to watch tonight. Pick a genre, answer a few questions from the Oracle and get one film with its description, then keep it in your watchlist.
 
 ## Pages
 
@@ -10,7 +10,7 @@ MoodReel helps you decide what to watch tonight. Pick a genre, answer a few ques
 |---|---|---|
 | **Home** | `#/` | “Ask the Oracle”, “Browse genres” and every genre. |
 | **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists its films. |
-| **Oracle** | `#/oracle` | Pick a genre (or any) and answer yes/no questions until one film is left. Each question is the one with the highest expected information gain over the films still in the running. An optional “no sad ending” switch rules out sad and bleak endings. |
+| **Oracle** | `#/oracle` | Pick a genre (or any) and answer yes/no questions until one film is left. Each question is the one with the highest expected information gain over the films still in the running. |
 | **Film** | `#/film/<id>` | Poster, description, content warnings and similar films. |
 | **Swipe** | `#/swipe` | One film at a time: swipe right (or press →) to add it to the watchlist, left (←) to skip. Filter by genre, undo the last swipe. |
 | **Watchlist** | `#/list` | Saved films and films you have seen. |

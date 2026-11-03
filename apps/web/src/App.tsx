@@ -1,4 +1,4 @@
-import type { Effect, MovieSummary } from '@moodreel/core';
+import type { MovieSummary } from '@moodreel/core';
 import { useEffect, useMemo, useState } from 'react';
 import { createApi, type Api } from './api';
 import { Footer } from './components/Footer';
@@ -16,9 +16,6 @@ import { useLocationHash, useRoute, useScrollRestoration, type Route } from './r
 import { ApiProvider } from './state/api';
 import { StoreProvider } from './state/store';
 import './App.css';
-
-/** The first visit starts with the brief's one rule: no sad endings. */
-const OPENING_RULES: Effect[] = [{ kind: 'deal', key: 'noSadEnding' }];
 
 interface Boot {
   api: Api;
@@ -69,7 +66,7 @@ export function App() {
 
   return (
     <ApiProvider value={{ api: boot.api, catalog: boot.catalog, byId }}>
-      <StoreProvider defaults={OPENING_RULES}>
+      <StoreProvider>
         <Shell />
       </StoreProvider>
     </ApiProvider>

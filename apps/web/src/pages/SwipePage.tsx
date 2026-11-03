@@ -3,7 +3,6 @@ import { AnimatePresence, motion, useMotionValue, useTransform, type PanInfo } f
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Icon } from '../components/Icon';
 import { Poster } from '../components/Poster';
-import { RuleToggles } from '../components/RuleToggles';
 import { hash } from '../lib/format';
 import { isGenre } from '../lib/genres';
 import { readJson, writeJson } from '../lib/storage';
@@ -37,7 +36,7 @@ function loadDeck(): Deck {
 
 export function SwipePage() {
   const { catalog } = useApi();
-  const { state, rulesQuery, dispatch } = useStore();
+  const { state, unseenQuery, dispatch } = useStore();
   const [deck, setDeck] = useState(loadDeck);
   const [history, setHistory] = useState<Array<{ id: string; choice: Choice }>>([]);
   const [direction, setDirection] = useState(1);
@@ -48,9 +47,9 @@ export function SwipePage() {
   const cards = useMemo(() => {
     const skipped = new Set(deck.skipped);
     return catalog
-      .filter((m) => (!deck.genre || m.genres.includes(deck.genre)) && !state.watchlist.includes(m.id) && !skipped.has(m.id) && !exclusionReason(m, rulesQuery))
+      .filter((m) => (!deck.genre || m.genres.includes(deck.genre)) && !state.watchlist.includes(m.id) && !skipped.has(m.id) && !exclusionReason(m, unseenQuery))
       .sort((a, b) => hash(`${a.id}${deck.seed}`) - hash(`${b.id}${deck.seed}`));
-  }, [catalog, deck, state.watchlist, rulesQuery]);
+  }, [catalog, deck, state.watchlist, unseenQuery]);
 
   const top = cards[0];
 
@@ -110,7 +109,6 @@ export function SwipePage() {
           </select>
           <Icon name="chevronDown" size={16} className="fselect__chev" />
         </label>
-        <RuleToggles only={['noSadEnding']} />
       </div>
 
       <div className="swipe__stage">

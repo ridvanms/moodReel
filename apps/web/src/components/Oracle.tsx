@@ -20,7 +20,7 @@ const ANSWERS: Array<{ id: OracleAnswer; label: string }> = [
 /** `genre` is null for "any genre"; the genre is chosen on the step before the questions. */
 export function Oracle({ genre }: { genre: Genre | null }) {
   const { api, catalog } = useApi();
-  const { state: store, rulesQuery, dispatch } = useStore();
+  const { state: store, unseenQuery, dispatch } = useStore();
   const [history, setHistory] = useState<OracleStep[]>([]);
   const [state, setState] = useState<OracleState | null>(null);
   const [thinking, setThinking] = useState(false);
@@ -31,14 +31,14 @@ export function Oracle({ genre }: { genre: Genre | null }) {
       setThinking(true);
       try {
         setError('');
-        setState(await api.oracle(steps, withGenre(rulesQuery, genre, catalog)));
+        setState(await api.oracle(steps, withGenre(unseenQuery, genre, catalog)));
       } catch (e) {
         setError((e as Error).message);
       } finally {
         setThinking(false);
       }
     },
-    [api, catalog, genre, rulesQuery],
+    [api, catalog, genre, unseenQuery],
   );
 
   useEffect(() => {

@@ -1,6 +1,5 @@
 import { GENRE_LABEL, GENRES } from '@moodreel/core';
 import { Oracle } from '../components/Oracle';
-import { RuleToggles } from '../components/RuleToggles';
 import { isGenre } from '../lib/genres';
 import { Link } from '../router';
 import { useGenreFilms } from './GenresPage';
@@ -20,7 +19,6 @@ function GenreStep() {
       <span className="orb" aria-hidden="true" />
       <h1 id="ostep-title">The Oracle</h1>
       <p className="ostep__lead">Pick a genre and answer a few questions. The Oracle will choose one film for you.</p>
-      <RuleToggles only={['noSadEnding']} />
       <ul className="ostep__genres">
         <li>
           <Link to="/oracle?genre=any" className="btn btn--primary ostep__genre">
