@@ -12,6 +12,7 @@ export function Footer() {
           <Link to="/">Home</Link>
           <Link to="/genres">Genres</Link>
           <Link to="/oracle">Oracle</Link>
+          <Link to="/swipe">Swipe</Link>
           <Link to="/list">Watchlist</Link>
         </nav>
       </div>

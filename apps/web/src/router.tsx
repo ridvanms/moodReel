@@ -17,6 +17,7 @@ export type Route =
   | { page: 'film'; id: string }
   | { page: 'oracle'; params: URLSearchParams }
   | { page: 'list' }
+  | { page: 'swipe' }
   | { page: 'missing'; path: string };
 
 export function parseLocation(hash: string): Route {
@@ -37,6 +38,8 @@ export function parseLocation(hash: string): Route {
       return { page: 'oracle', params: new URLSearchParams(search) };
     case 'list':
       return { page: 'list' };
+    case 'swipe':
+      return { page: 'swipe' };
     default:
       return { page: 'missing', path: raw };
   }

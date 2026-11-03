@@ -11,6 +11,7 @@ import { ListPage } from './pages/ListPage';
 import { GenrePage, GenresPage } from './pages/GenresPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OraclePage } from './pages/OraclePage';
+import { SwipePage } from './pages/SwipePage';
 import { useLocationHash, useRoute, useScrollRestoration, type Route } from './router';
 import { ApiProvider } from './state/api';
 import { StoreProvider } from './state/store';
@@ -29,6 +30,7 @@ const TITLES: Partial<Record<Route['page'], string>> = {
   browse: 'All films',
   oracle: 'The Oracle',
   list: 'Watchlist',
+  swipe: 'Swipe',
 };
 
 export function App() {
@@ -116,6 +118,8 @@ function Page({ route }: { route: Route }) {
       return <OraclePage params={route.params} />;
     case 'list':
       return <ListPage />;
+    case 'swipe':
+      return <SwipePage />;
     case 'missing':
       return <NotFoundPage />;
   }

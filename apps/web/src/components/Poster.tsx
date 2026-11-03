@@ -117,10 +117,12 @@ interface PosterProps {
   size?: 'sm' | 'md' | 'lg';
   /** Decorative when the title is already next to it. */
   decorative?: boolean;
+  /** Artwork only, without the printed title, for cards that lay their own text over it. */
+  bare?: boolean;
   className?: string;
 }
 
-export const Poster = memo(function Poster({ movie, size = 'md', decorative = true, className }: PosterProps) {
+export const Poster = memo(function Poster({ movie, size = 'md', decorative = true, bare = false, className }: PosterProps) {
   const [bg, a, b] = movie.palette;
   const seed = hash(movie.id);
   let state = seed;
@@ -146,13 +148,15 @@ export const Poster = memo(function Poster({ movie, size = 'md', decorative = tr
         {motif}
       </svg>
       <div className="poster__grain" aria-hidden="true" />
-      <div className="poster__text">
-        <span className="poster__year">{movie.year}</span>
-        <span className="poster__title" style={{ fontSize: `${titleSize.toFixed(2)}cqw` }}>
-          {movie.title}
-        </span>
-        <span className="poster__credit">{movie.director.split(',')[0]}</span>
-      </div>
+      {!bare && (
+        <div className="poster__text">
+          <span className="poster__year">{movie.year}</span>
+          <span className="poster__title" style={{ fontSize: `${titleSize.toFixed(2)}cqw` }}>
+            {movie.title}
+          </span>
+          <span className="poster__credit">{movie.director.split(',')[0]}</span>
+        </div>
+      )}
     </div>
   );
 });
