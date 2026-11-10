@@ -30,9 +30,9 @@ function hours(minutes) {
   return Math.floor(minutes / 60) + 'h ' + (minutes % 60) + 'min';
 }
 
-// A simple "poster": the film's two colours and its title.
+// A simple "poster": a card in the film's colour with its title.
 function posterHtml(film) {
-  return `<div class="poster" style="background: linear-gradient(160deg, ${film.colors[1]}, ${film.colors[0]} 70%)">
+  return `<div class="poster" style="background-color: ${film.color}">
       <span>${film.title}</span>
     </div>`;
 }
