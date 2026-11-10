@@ -21,26 +21,6 @@ body {
   overflow-x: hidden;
 }
 
-/* Projector light falling on the room, and a faint grain so flat dark areas feel like film. */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  background:
-    radial-gradient(70rem 30rem at 12% -10%, rgb(224 24 111 / 0.08), transparent 60%);
-  z-index: 0;
-}
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  opacity: 0.05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  z-index: 0;
-}
-
 #root {
   position: relative;
   z-index: 1;
@@ -52,10 +32,9 @@ h3,
 h4 {
   margin: 0;
   font-family: var(--font-display);
-  font-weight: 600;
-  line-height: 1.1;
+  font-weight: 700;
+  line-height: 1.15;
   text-wrap: balance;
-  letter-spacing: -0.01em;
 }
 
 p {
@@ -104,10 +83,7 @@ html {
 }
 
 .eyebrow {
-  font-family: var(--font-mono);
-  font-size: var(--step--2);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
+  font-size: var(--step--1);
   color: var(--muted);
 }
 

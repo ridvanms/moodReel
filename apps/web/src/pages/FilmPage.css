@@ -76,3 +76,6 @@
     font-size: var(--step-0);
   }
 }
+.film__similar-title {
+  font-size: var(--step-2);
+}

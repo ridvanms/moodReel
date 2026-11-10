@@ -1,4 +1,4 @@
-import { GENRE_LABEL, type MovieSummary } from '@moodreel/core';
+import type { MovieSummary } from '@moodreel/core';
 import { Link } from '../router';
 import { useStore } from '../state/store';
 import { Icon } from './Icon';
@@ -20,18 +20,12 @@ export function PosterCard({ movie }: Props) {
       <Link to={`/film/${movie.id}`} className="pcard__link" aria-label={`${movie.title} (${movie.year})`}>
         <div className="pcard__frame">
           <Poster movie={movie} />
-          {seen && <span className="pcard__seen mono">seen</span>}
-          <span className="pcard__hover" aria-hidden="true">
-            <span className="pcard__genres">{movie.genres.slice(0, 2).map((g) => GENRE_LABEL[g]).join(' · ')}</span>
-            <span className="pcard__open">
-              Open <Icon name="arrow" size={14} />
-            </span>
-          </span>
+          {seen && <span className="pcard__seen">seen</span>}
         </div>
         <h3 className="pcard__title">{movie.title}</h3>
       </Link>
       <div className="pcard__foot">
-        <span className="pcard__meta mono">
+        <span className="pcard__meta">
           {movie.year} · {movie.runtime} min
         </span>
         <button

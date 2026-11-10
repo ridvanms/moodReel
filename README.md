@@ -12,10 +12,9 @@ MoodReel helps you decide what to watch tonight. Pick a genre, answer a few ques
 | **Genres** | `#/genres`, `#/genres/<genre>` | Every genre as a card; a genre page lists its films. |
 | **Oracle** | `#/oracle` | Pick a genre (or any) and answer yes/no questions until one film is left. Each question is the one with the highest expected information gain over the films still in the running. |
 | **Film** | `#/film/<id>` | Poster, description, content warnings and similar films. |
-| **Swipe** | `#/swipe` | One film at a time: swipe right (or press →) to add it to the watchlist, left (←) to skip. Filter by genre, undo the last swipe. |
 | **Watchlist** | `#/list` | Saved films and films you have seen. |
 
-The header search finds films by title, director or year; Enter opens **All films** (`#/browse`) with the results.
+A plain HTML, CSS and JavaScript version of the same site, with no build step, lives in [`html-version/`](html-version/).
 
 ## Architecture
 
@@ -117,9 +116,9 @@ moodreel/
 ├── apps/server/          # Express API, store, middleware (+ tests)
 └── apps/web/             # React client (+ tests)
     └── src/
-        ├── pages/        # home, genres, oracle, film, watchlist, all films
-        ├── components/   # header, search, posters, shelves, oracle
-        ├── lib/          # genres, search, storage
+        ├── pages/        # home, genres, oracle, film, watchlist
+        ├── components/   # header, posters, genre cards, oracle
+        ├── lib/          # genres, storage
         └── state/        # store and API context
 ```
 

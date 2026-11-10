@@ -6,11 +6,11 @@
 :root {
   color-scheme: dark;
 
-  --ink-0: #090b14;
-  --ink-1: #0f1220;
-  --ink-2: #151a2b;
-  --ink-3: #1d2338;
-  --ink-4: #262d46;
+  --ink-0: #10131f;
+  --ink-1: #181c2e;
+  --ink-2: #20253a;
+  --ink-3: #272d45;
+  --ink-4: #2e3550;
   --line: #242a40;
   --line-strong: #363e5b;
   --paper: #f2edf1;
@@ -36,9 +36,9 @@
   --warn: #f0c35a;
   --bad: #ff7b7b;
 
-  --font-display: 'Unbounded Variable', 'Unbounded', 'Arial Black', system-ui, sans-serif;
-  --font-body: 'Onest Variable', 'Onest', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  --font-mono: 'JetBrains Mono Variable', 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-display: 'Poppins', system-ui, sans-serif;
+  --font-body: 'Poppins', system-ui, sans-serif;
+  --font-mono: 'Poppins', system-ui, sans-serif;
 
   --step--2: 0.72rem;
   --step--1: 0.84rem;
@@ -51,7 +51,7 @@
 
   --radius: 16px;
   --radius-sm: 10px;
-  --page: 1320px;
+  --page: 1100px;
   --header-h: 64px;
   --gutter-l: max(16px, env(safe-area-inset-left, 0px));
   --gutter-r: max(16px, env(safe-area-inset-right, 0px));

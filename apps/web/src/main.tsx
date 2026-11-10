@@ -1,6 +1,7 @@
-import '@fontsource-variable/unbounded/index.css';
-import '@fontsource-variable/onest/index.css';
-import '@fontsource-variable/jetbrains-mono/index.css';
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-500.css';
+import '@fontsource/poppins/latin-600.css';
+import '@fontsource/poppins/latin-700.css';
 import './styles/tokens.css';
 import './styles/base.css';
 import { StrictMode } from 'react';

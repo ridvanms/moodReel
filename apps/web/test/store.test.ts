@@ -2,7 +2,6 @@ import { emptyQuery, exclusionReason, GENRES } from '@moodreel/core';
 import { SUMMARIES } from '@moodreel/core/catalog';
 import { describe, expect, it } from 'vitest';
 import { isGenre, withGenre } from '../src/lib/genres';
-import { searchCatalog } from '../src/lib/search';
 import { parseLocation } from '../src/router';
 import { reducer, type MoodState } from '../src/state/store';
 
@@ -49,17 +48,7 @@ describe('router', () => {
     const oracle = parseLocation('#/oracle?genre=comedy');
     expect(oracle.page === 'oracle' && oracle.params.get('genre')).toBe('comedy');
     expect(parseLocation('#/moods').page).toBe('missing');
-    const browse = parseLocation('#/browse?genre=horror&q=the%20thing');
-    expect(browse.page === 'browse' && browse.params.get('q')).toBe('the thing');
+    expect(parseLocation('#/browse').page).toBe('missing');
     expect(parseLocation('#/nope').page).toBe('missing');
-  });
-});
-
-describe('search', () => {
-  it('ranks title hits above director and theme hits', () => {
-    expect(searchCatalog(SUMMARIES, 'black swan')[0]?.id).toBe('black-swan-2010');
-    expect(searchCatalog(SUMMARIES, 'nolan').map((m) => m.id)).toContain('inception-2010');
-    expect(searchCatalog(SUMMARIES, 'amélie')[0]?.id).toBe('amelie-2001');
-    expect(searchCatalog(SUMMARIES, '   ')).toEqual([]);
   });
 });

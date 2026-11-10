@@ -4,14 +4,12 @@ import { createApi, type Api } from './api';
 import { Footer } from './components/Footer';
 import { Header } from './components/Header';
 import { Icon } from './components/Icon';
-import { BrowsePage } from './pages/BrowsePage';
 import { FilmPage } from './pages/FilmPage';
 import { HomePage } from './pages/HomePage';
 import { ListPage } from './pages/ListPage';
 import { GenrePage, GenresPage } from './pages/GenresPage';
 import { NotFoundPage } from './pages/NotFoundPage';
 import { OraclePage } from './pages/OraclePage';
-import { SwipePage } from './pages/SwipePage';
 import { useLocationHash, useRoute, useScrollRestoration, type Route } from './router';
 import { ApiProvider } from './state/api';
 import { StoreProvider } from './state/store';
@@ -24,10 +22,8 @@ interface Boot {
 
 const TITLES: Partial<Record<Route['page'], string>> = {
   genres: 'Genres',
-  browse: 'All films',
   oracle: 'The Oracle',
   list: 'Watchlist',
-  swipe: 'Swipe',
 };
 
 export function App() {
@@ -107,16 +103,12 @@ function Page({ route }: { route: Route }) {
       return <GenresPage />;
     case 'genre':
       return <GenrePage genre={route.genre} params={route.params} />;
-    case 'browse':
-      return <BrowsePage params={route.params} />;
     case 'film':
       return <FilmPage key={route.id} id={route.id} />;
     case 'oracle':
       return <OraclePage params={route.params} />;
     case 'list':
       return <ListPage />;
-    case 'swipe':
-      return <SwipePage />;
     case 'missing':
       return <NotFoundPage />;
   }

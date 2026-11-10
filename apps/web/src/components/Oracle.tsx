@@ -11,9 +11,7 @@ import './Oracle.css';
 
 const ANSWERS: Array<{ id: OracleAnswer; label: string }> = [
   { id: 'yes', label: 'Yes' },
-  { id: 'probably', label: 'Probably' },
-  { id: 'unknown', label: 'Don’t care' },
-  { id: 'probablyNot', label: 'Probably not' },
+  { id: 'unknown', label: 'Don’t mind' },
   { id: 'no', label: 'No' },
 ];
 

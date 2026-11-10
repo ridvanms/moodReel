@@ -13,11 +13,9 @@ export type Route =
   | { page: 'home' }
   | { page: 'genres' }
   | { page: 'genre'; genre: string; params: URLSearchParams }
-  | { page: 'browse'; params: URLSearchParams }
   | { page: 'film'; id: string }
   | { page: 'oracle'; params: URLSearchParams }
   | { page: 'list' }
-  | { page: 'swipe' }
   | { page: 'missing'; path: string };
 
 export function parseLocation(hash: string): Route {
@@ -30,16 +28,12 @@ export function parseLocation(hash: string): Route {
       return { page: 'home' };
     case 'genres':
       return arg ? { page: 'genre', genre: arg, params: new URLSearchParams(search) } : { page: 'genres' };
-    case 'browse':
-      return { page: 'browse', params: new URLSearchParams(search) };
     case 'film':
       return arg ? { page: 'film', id: arg } : { page: 'missing', path: raw };
     case 'oracle':
       return { page: 'oracle', params: new URLSearchParams(search) };
     case 'list':
       return { page: 'list' };
-    case 'swipe':
-      return { page: 'swipe' };
     default:
       return { page: 'missing', path: raw };
   }

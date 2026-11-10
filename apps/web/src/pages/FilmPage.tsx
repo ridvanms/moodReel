@@ -2,7 +2,7 @@ import { GENRE_LABEL, type MovieDetails } from '@moodreel/core';
 import { useEffect, useState, type CSSProperties } from 'react';
 import { Icon } from '../components/Icon';
 import { Poster } from '../components/Poster';
-import { Shelf } from '../components/Shelf';
+import { PosterCard } from '../components/PosterCard';
 import { imdbSearch, letterboxdSearch } from '../lib/format';
 import { Link } from '../router';
 import { useApi } from '../state/api';
@@ -90,7 +90,20 @@ export function FilmPage({ id }: { id: string }) {
         </div>
       </div>
 
-      <Shelf title="You might also like" loading={!details} items={(details?.similar ?? []).map((s) => ({ movie: s.movie }))} />
+      {details && (
+        <section className="section" aria-labelledby="similar-title">
+          <h2 id="similar-title" className="film__similar-title">
+            You might also like
+          </h2>
+          <ul className="pgrid">
+            {details.similar.map(({ movie: m }) => (
+              <li key={m.id}>
+                <PosterCard movie={m} />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
     </article>
   );
 }
