@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Film · MoodReel</title>
+  <title>MoodReel</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -21,7 +22,19 @@
   </header>
 
   <main>
-    <div id="film"></div>
+    <section class="hero">
+      <h1>What are we watching <span>tonight?</span></h1>
+      <p>Can’t decide? Answer a few questions and the Oracle will pick a film for you.</p>
+      <div class="buttons">
+        <a class="btn btn-pink" href="oracle.html">Ask the Oracle</a>
+        <a class="btn" href="genres.html">Browse genres</a>
+      </div>
+    </section>
+
+    <section>
+      <h2>Genres</h2>
+      <div class="genre-grid" id="genre-grid"></div>
+    </section>
   </main>
 
   <footer>
@@ -30,6 +43,6 @@
 
   <script src="js/films.js"></script>
   <script src="js/common.js"></script>
-  <script src="js/film.js"></script>
+  <script src="js/home.js"></script>
 </body>
 </html>
