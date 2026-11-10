@@ -1,64 +1,79 @@
-// The Oracle: pick a genre, answer two questions, get one film.
-const box = document.getElementById('oracle-box');
+// The Oracle: answer three questions, then the Oracle picks one film.
+const form = document.getElementById('oracle-form');
+const result = document.getElementById('result');
 
-let chosenGenre = null;
-let wantsNewer = null;
+let answers = { genre: null, newer: null, extra: null };
 
-function startOracle() {
-  chosenGenre = null;
-  wantsNewer = null;
-  let html = '<p class="step">Step 1 of 3</p><h2>Pick a genre</h2><div class="answers">';
-  genres.forEach((genre) => {
-    html += `<button class="btn" onclick="pickGenre('${genre.id}')">${genre.name}</button>`;
+function showForm() {
+  const genre = findGenre(answers.genre);
+
+  let html = '<h3>1. What genre do you feel like?</h3><div class="options">';
+  genres.forEach((g) => {
+    html += optionButton('genre', g.id, `${g.emoji} ${g.name}`);
   });
-  box.innerHTML = html + '</div>';
+  html += '</div>';
+
+  html += '<h3>2. Newer or older film?</h3><div class="options">';
+  html += optionButton('newer', true, 'Newer (2005 and later)');
+  html += optionButton('newer', false, 'Older (before 2005)');
+  html += '</div>';
+
+  if (genre) {
+    html += `<h3>3. ${genre.question}</h3><div class="options">`;
+    html += optionButton('extra', true, 'Yes');
+    html += optionButton('extra', false, 'No');
+    html += '</div>';
+  } else {
+    html += '<h3 class="muted">3. Pick a genre first</h3>';
+  }
+
+  const ready = answers.genre && answers.newer !== null && answers.extra !== null;
+  html += `<button class="btn" onclick="askOracle()" ${ready ? '' : 'disabled'}>Ask the Oracle</button>`;
+
+  form.innerHTML = html;
 }
 
-function pickGenre(genreId) {
-  chosenGenre = genreId;
-  ask('Step 2 of 3', 'Do you want a newer film (from 2005 or later)?', 'answerNewer');
+function optionButton(question, value, label) {
+  const selected = answers[question] === value ? 'selected' : '';
+  const arg = typeof value === 'string' ? `'${value}'` : value;
+  return `<button class="option ${selected}" onclick="choose('${question}', ${arg})">${label}</button>`;
 }
 
-function answerNewer(answer) {
-  wantsNewer = answer;
-  const genre = genres.find((g) => g.id === chosenGenre);
-  ask('Step 3 of 3', genre.question, 'answerLast');
+function choose(question, value) {
+  answers[question] = value;
+  // A new genre means a new third question.
+  if (question === 'genre') answers.extra = null;
+  showForm();
 }
 
-function answerLast(answer) {
-  const film = films.find((f) => f.genre === chosenGenre && f.year >= 2005 === wantsNewer && f.extra === answer);
-  showResult(film);
-}
+function askOracle() {
+  const film = films.find((f) => f.genre === answers.genre && f.year >= 2005 === answers.newer && f.extra === answers.extra);
+  const genre = findGenre(film.genre);
 
-function ask(step, question, handler) {
-  box.innerHTML = `<p class="step">${step}</p>
-    <h2>${question}</h2>
-    <div class="answers">
-      <button class="btn btn-pink" onclick="${handler}(true)">Yes</button>
-      <button class="btn" onclick="${handler}(false)">No</button>
-    </div>
-    <button class="link" onclick="startOracle()">Start over</button>`;
-}
-
-function showResult(film) {
-  box.innerHTML = `<p class="step">The Oracle picked</p>
-    <div class="result">
+  form.hidden = true;
+  result.hidden = false;
+  result.innerHTML = `<p class="label">The Oracle picked for you:</p>
+    <div class="result-film">
       ${posterHtml(film)}
       <div>
-        <h2>${film.title}</h2>
-        <p class="info">${film.year} · ${genreName(film.genre)} · ${film.director} · ${hours(film.minutes)}</p>
-        <p>${film.description}</p>
-        <div class="buttons">
-          <button class="btn btn-pink" onclick="startOracle()">Ask again</button>
-        </div>
+        <h2>${film.title} (${film.year})</h2>
+        <p class="meta">${genre.name} • ${film.minutes} min • ${film.director}</p>
       </div>
-    </div>`;
+    </div>
+    <p>${film.description}</p>
+    <p class="why">Why it fits: you wanted ${answers.newer ? 'a newer' : 'an older'} ${genre.name.toLowerCase()} film ${genre[answers.extra ? 'yes' : 'no']}.</p>
+    <button class="btn btn-ghost" onclick="tryAgain()">↻ Try again with other answers</button>`;
 }
 
-// Coming from a genre card on the home page (oracle.html?genre=horror) skips step 1.
-const genreFromLink = new URLSearchParams(location.search).get('genre');
-if (genres.some((genre) => genre.id === genreFromLink)) {
-  pickGenre(genreFromLink);
-} else {
-  startOracle();
+function tryAgain() {
+  answers = { genre: null, newer: null, extra: null };
+  result.hidden = true;
+  form.hidden = false;
+  showForm();
 }
+
+// Coming from a genre on the home page (oracle.html?genre=horror) picks that genre already.
+const genreFromLink = new URLSearchParams(location.search).get('genre');
+if (findGenre(genreFromLink)) answers.genre = genreFromLink;
+
+showForm();

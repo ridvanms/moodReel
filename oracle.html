@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Not sure what to watch? Pick a genre, answer two questions and the Oracle picks a film for you.">
+  <meta name="description" content="Not sure what to watch? Answer three questions and the Oracle picks a film for you.">
   <title>Oracle · MoodReel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header>
-    <a class="logo" href="index.html">Mood<span>Reel</span></a>
+    <a class="logo" href="index.html">🎬 Mood<span>Reel</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="oracle.html">Oracle</a>
@@ -21,14 +18,17 @@
   </header>
 
   <main>
-    <section class="oracle">
+    <section>
       <h1>The Oracle</h1>
-      <div class="oracle-box" id="oracle-box"></div>
+      <p class="muted">Answer three short questions and get one film for tonight.</p>
     </section>
+
+    <section class="box" id="oracle-form"></section>
+    <section class="box" id="result" hidden></section>
   </main>
 
   <footer>
-    <p>MoodReel © 2026</p>
+    <p>MoodReel. A simple way to pick a good film quickly.</p>
   </footer>
 
   <script src="js/films.js"></script>

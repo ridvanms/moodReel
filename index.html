@@ -3,17 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Not sure what to watch? Pick a genre, answer two questions and the Oracle picks a film for you.">
+  <meta name="description" content="Not sure what to watch? Answer three questions and the Oracle picks a film for you.">
   <title>MoodReel</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
   <header>
-    <a class="logo" href="index.html">Mood<span>Reel</span></a>
+    <a class="logo" href="index.html">🎬 Mood<span>Reel</span></a>
     <nav>
       <a href="index.html">Home</a>
       <a href="oracle.html">Oracle</a>
@@ -21,22 +18,25 @@
   </header>
 
   <main>
-    <section class="hero">
-      <h1>What are we watching <span>tonight?</span></h1>
-      <p>Can’t decide? Answer a few questions and the Oracle will pick a film for you.</p>
-      <div class="buttons">
-        <a class="btn btn-pink" href="oracle.html">Ask the Oracle</a>
-      </div>
+    <section class="intro box">
+      <h1>What should we watch tonight?</h1>
+      <p>Don’t know what to watch? Endless scrolling on streaming sites gets boring fast. Answer three easy questions and the Oracle will pick a film for you.</p>
+      <a class="btn" href="oracle.html">To the Oracle →</a>
     </section>
 
     <section>
-      <h2>Or start with a genre</h2>
+      <h2>Genres</h2>
       <div class="genre-grid" id="genre-grid"></div>
+    </section>
+
+    <section>
+      <h2>Films to try</h2>
+      <div class="film-grid" id="film-grid"></div>
     </section>
   </main>
 
   <footer>
-    <p>MoodReel © 2026</p>
+    <p>MoodReel. A simple way to pick a good film quickly.</p>
   </footer>
 
   <script src="js/films.js"></script>

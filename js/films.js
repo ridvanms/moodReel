@@ -1,14 +1,13 @@
 // All films on the site.
-// The Oracle's first question asks for a newer film (from 2005 or later).
-// "extra" is the film's answer to its genre's second question.
-// "color" is the colour of the film's card.
+// The Oracle asks: which genre, a newer (2005 or later) or older film, and the genre's own question.
+// "extra" is the film's answer to its genre's question. "yes" and "no" are used in "Why it fits".
 const genres = [
-  { id: 'horror', name: 'Horror', question: 'Do you want it to be really scary?' },
-  { id: 'comedy', name: 'Comedy', question: 'Are you watching with your family?' },
-  { id: 'romance', name: 'Romance', question: 'Do you want to laugh too?' },
-  { id: 'scifi', name: 'Sci-Fi', question: 'Do you want a film that makes you think?' },
-  { id: 'action', name: 'Action', question: 'Do you want non-stop action?' },
-  { id: 'animation', name: 'Animation', question: 'Is it okay if you cry a little?' },
+  { id: 'horror', name: 'Horror', emoji: '👻', question: 'Do you want it to be really scary?', yes: 'that is really scary', no: 'that is scary, but not too much' },
+  { id: 'comedy', name: 'Comedy', emoji: '😂', question: 'Are you watching with your family?', yes: 'that the whole family can watch', no: 'for a night with friends' },
+  { id: 'romance', name: 'Romance', emoji: '💕', question: 'Do you want to laugh too?', yes: 'with lots of laughs', no: 'that is more serious' },
+  { id: 'scifi', name: 'Sci-Fi', emoji: '🚀', question: 'Do you want a film that makes you think?', yes: 'that makes you think', no: 'that is just fun to watch' },
+  { id: 'action', name: 'Action', emoji: '💥', question: 'Do you want non-stop action?', yes: 'with non-stop action', no: 'with a bigger story' },
+  { id: 'animation', name: 'Animation', emoji: '🧸', question: 'Is it okay if you cry a little?', yes: 'that might make you cry a little', no: 'that is light and fun' },
 ];
 
 const films = [

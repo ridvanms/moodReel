@@ -1,18 +1,12 @@
 // Things both pages use.
 
-function genreName(id) {
-  return genres.find((genre) => genre.id === id).name;
+function findGenre(id) {
+  return genres.find((genre) => genre.id === id);
 }
 
-function hours(minutes) {
-  return Math.floor(minutes / 60) + 'h ' + (minutes % 60) + 'min';
-}
-
-// A simple "poster": a card in the film's colour with its title.
+// A film "poster": a box in the film's colour with its genre emoji.
 function posterHtml(film) {
-  return `<div class="poster" style="background-color: ${film.color}">
-      <span>${film.title}</span>
-    </div>`;
+  return `<div class="poster" style="background-color: ${film.color}">${findGenre(film.genre).emoji}</div>`;
 }
 
 // Mark the current page in the menu.
