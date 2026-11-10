@@ -1,0 +1,4 @@
+# The site is plain HTML, CSS and JavaScript: nothing to build, publish the files as they are.
+[build]
+  publish = "."
+  command = "echo 'No build step'"
