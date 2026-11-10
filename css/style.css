@@ -165,14 +165,7 @@ footer {
   color: #8f93ab;
 }
 
-/* film cards and posters */
-.film-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 24px;
-  margin-top: 24px;
-}
-
+/* posters */
 .poster {
   aspect-ratio: 2 / 3;
   border-radius: 10px;
@@ -185,45 +178,6 @@ footer {
   text-transform: uppercase;
   color: white;
   text-shadow: 0 2px 6px rgba(0, 0, 0, 0.5);
-}
-
-.film-card h3 {
-  margin-top: 10px;
-  font-size: 17px;
-}
-
-.film-card p {
-  color: #8f93ab;
-  font-size: 14px;
-}
-
-.film-card:hover .poster {
-  outline: 3px solid #e0186f;
-}
-
-/* genres page */
-.genre-buttons {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-.genre-buttons button {
-  padding: 8px 18px;
-  border: 2px solid #3a4260;
-  border-radius: 20px;
-  background: none;
-  color: #b9b6c4;
-  font-family: inherit;
-  font-size: 15px;
-  cursor: pointer;
-}
-
-.genre-buttons button.active,
-.genre-buttons button:hover {
-  background-color: #e0186f;
-  border-color: #e0186f;
-  color: white;
 }
 
 /* oracle */
@@ -268,63 +222,6 @@ footer {
   margin-bottom: 10px;
 }
 
-/* film page */
-.back {
-  margin-bottom: 20px;
-  color: #ff4f9a;
-}
-
-.film-page {
-  display: grid;
-  grid-template-columns: 280px 1fr;
-  gap: 40px;
-  margin-bottom: 50px;
-}
-
-.film-page .poster {
-  font-size: 28px;
-}
-
-.description {
-  font-size: 19px;
-  margin-bottom: 24px;
-  max-width: 550px;
-}
-
-/* watchlist */
-.watch-row {
-  display: grid;
-  grid-template-columns: 70px 1fr auto;
-  align-items: center;
-  gap: 20px;
-  padding: 12px;
-  margin-bottom: 12px;
-  background-color: #181c2e;
-  border-radius: 12px;
-}
-
-.watch-row .poster {
-  font-size: 0;
-  padding: 0;
-}
-
-.watch-row p {
-  color: #8f93ab;
-  font-size: 14px;
-}
-
-.empty {
-  padding: 40px;
-  text-align: center;
-  background-color: #181c2e;
-  border-radius: 16px;
-}
-
-.empty p {
-  margin-bottom: 20px;
-  color: #b9b6c4;
-}
-
 /* phones */
 @media (max-width: 700px) {
   header {
@@ -347,11 +244,6 @@ footer {
     grid-template-columns: repeat(2, 1fr);
   }
 
-  .film-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
   .poster {
     font-size: 15px;
   }
@@ -360,13 +252,11 @@ footer {
     padding: 24px;
   }
 
-  .result,
-  .film-page {
+  .result {
     grid-template-columns: 1fr;
   }
 
-  .result .poster,
-  .film-page .poster {
+  .result .poster {
     width: 180px;
   }
 }

@@ -1,5 +1,6 @@
 // All films on the site.
-// "newer" = from 2005 or later. "extra" is the answer to the genre's second Oracle question.
+// The Oracle's first question asks for a newer film (from 2005 or later).
+// "extra" is the film's answer to its genre's second question.
 // "color" is the colour of the film's card.
 const genres = [
   { id: 'horror', name: 'Horror', question: 'Do you want it to be really scary?' },

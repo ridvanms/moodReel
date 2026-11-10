@@ -46,25 +46,19 @@ function showResult(film) {
       ${posterHtml(film)}
       <div>
         <h2>${film.title}</h2>
-        <p class="info">${film.year} · ${film.director} · ${hours(film.minutes)}</p>
+        <p class="info">${film.year} · ${genreName(film.genre)} · ${film.director} · ${hours(film.minutes)}</p>
         <p>${film.description}</p>
         <div class="buttons">
-          <button class="btn btn-pink" id="save-button" onclick="saveFilm('${film.id}')"></button>
-          <a class="btn" href="film.html?id=${film.id}">More about it</a>
+          <button class="btn btn-pink" onclick="startOracle()">Ask again</button>
         </div>
-        <button class="link" onclick="startOracle()">Ask again</button>
       </div>
     </div>`;
-  updateSaveButton(film.id);
 }
 
-function saveFilm(id) {
-  toggleWatchlist(id);
-  updateSaveButton(id);
+// Coming from a genre card on the home page (oracle.html?genre=horror) skips step 1.
+const genreFromLink = new URLSearchParams(location.search).get('genre');
+if (genres.some((genre) => genre.id === genreFromLink)) {
+  pickGenre(genreFromLink);
+} else {
+  startOracle();
 }
-
-function updateSaveButton(id) {
-  document.getElementById('save-button').textContent = isSaved(id) ? '✓ In your watchlist' : '+ Add to watchlist';
-}
-
-startOracle();

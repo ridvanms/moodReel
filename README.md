@@ -2,7 +2,7 @@
 
 **Live site:** https://ridvanms.github.io/moodReel/
 
-Not sure what to watch tonight? Pick a genre, answer two questions from the Oracle and get a film with its description. Save the films you like to your watchlist.
+Not sure what to watch tonight? Pick a genre, answer two questions from the Oracle and get a film with its description.
 
 Made with HTML, CSS and JavaScript, without frameworks or a build step. Open `index.html` in a browser to run it.
 
@@ -10,11 +10,10 @@ Made with HTML, CSS and JavaScript, without frameworks or a build step. Open `in
 
 | Page | File | What it does |
 |---|---|---|
-| Home | `index.html` | Intro, a button to the Oracle and all the genres |
-| Genres | `genres.html` | The films of a genre (`genres.html?genre=horror`) |
-| Oracle | `oracle.html` | Pick a genre, answer two yes/no questions, get a film |
-| Film | `film.html` | One film with its description (`film.html?id=coco`) |
-| Watchlist | `watchlist.html` | The films you saved |
+| Home | `index.html` | Intro, a button to the Oracle and all the genres. A genre card starts the Oracle with that genre. |
+| Oracle | `oracle.html` | Pick a genre, answer two yes/no questions, get a film with its description |
+
+More pages (genres, a page per film and a watchlist) are ready on the [`later-pages`](https://github.com/ridvanms/moodReel/tree/later-pages) branch for the next stage.
 
 ## Files
 
@@ -22,10 +21,8 @@ Made with HTML, CSS and JavaScript, without frameworks or a build step. Open `in
 |---|---|
 | `css/style.css` | All the styles |
 | `js/films.js` | The genres, the Oracle questions and the films |
-| `js/common.js` | Code every page uses: the watchlist, film cards and the menu |
-| `js/home.js`, `js/genres.js`, `js/oracle.js`, `js/film.js`, `js/watchlist.js` | One small script per page |
-
-The watchlist is saved in the browser with `localStorage`, so it stays after you close the page.
+| `js/common.js` | Code both pages use: film posters and the menu |
+| `js/home.js`, `js/oracle.js` | One small script per page |
 
 ## How the Oracle chooses
 
